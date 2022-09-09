@@ -15,23 +15,23 @@ class CircularDynamicArray{
         CircularDynamicArray(int s);
         ~CircularDynamicArray();
 
-        void addFront(elmtype v){};
-        void addEnd(elmtype v){};
+        void AddFront(elmtype v){};
+        void AddEnd(elmtype v){};
 
-        void delFront(){};
-        void delEnd(){};
+        void DelFront(){};
+        void DelEnd(){};
 
-        int length();
-        int capacity();
+        int Length();
+        int Capacity();
 
-        void clear();
+        void Clear();
         
         elmtype QuickSelect(int k);
         elmtype WCSelect(int k);
 
-        void stableSort();
-        int linearSearch(elmtype v);
-        int binSearch(elmtype v);
+        void StableSort();
+        int Search(elmtype v);
+        int BinSearch(elmtype v);
 };
 
 template <class elmtype>
@@ -43,37 +43,37 @@ CircularDynamicArray<elmtype>::~CircularDynamicArray(){
 }
 
 template <class elmtype>
-void CircularDynamicArray<elmtype>::addFront(elmtype v){
+void CircularDynamicArray<elmtype>::AddFront(elmtype v){
 
 }
 
 template <class elmtype>
-void CircularDynamicArray<elmtype>::addEnd(elmtype v){
+void CircularDynamicArray<elmtype>::AddEnd(elmtype v){
 
 }
 
 template <class elmtype>
-void CircularDynamicArray<elmtype>::delFront(){
+void CircularDynamicArray<elmtype>::DelFront(){
 
 }
 
 template <class elmtype>
-void CircularDynamicArray<elmtype>::delEnd(){
+void CircularDynamicArray<elmtype>::DelEnd(){
 
 }
 
 template <class elmtype>
-int CircularDynamicArray<elmtype>::length(){
+int CircularDynamicArray<elmtype>::Length(){
 
 }
 
 template <class elmtype>
-int CircularDynamicArray<elmtype>::capacity(){
+int CircularDynamicArray<elmtype>::Capacity(){
 
 }
 
 template <class elmtype>
-void CircularDynamicArray<elmtype>::clear(){
+void CircularDynamicArray<elmtype>::Clear(){
 
 }
 
@@ -88,12 +88,12 @@ elmtype CircularDynamicArray<elmtype>::WCSelect(int k){
 }
 
 template <class elmtype>
-void CircularDynamicArray<elmtype>::stableSort(){
+void CircularDynamicArray<elmtype>::StableSort(){
 
 }
 
 template <class elmtype>
-int CircularDynamicArray<elmtype>::linearSearch(elmtype v){
+int CircularDynamicArray<elmtype>::Search(elmtype v){
     for(int i = 0; i < size; i++){
         if(array[i] == v){
             return i;
@@ -102,7 +102,7 @@ int CircularDynamicArray<elmtype>::linearSearch(elmtype v){
 }
 
 template <class elmtype>
-int CircularDynamicArray<elmtype>::binSearch(elmtype v){
+int CircularDynamicArray<elmtype>::BinSearch(elmtype v){
     int left = 0, right = size, center;   
     while (left <= right) {
         center = (left + right) / 2;
