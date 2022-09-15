@@ -52,7 +52,7 @@ class CircularDynamicArray{
             capacity = 2;
             end = 0;
             front = 0;
-            array = new elmtype[this->size];
+            array = new elmtype[capacity];
         }
 
         CircularDynamicArray(int s){
@@ -60,7 +60,7 @@ class CircularDynamicArray{
             capacity = s;
             front = 0;
             end = this->size - 1;
-            array = new elmtype[this->size];
+            array = new elmtype[capacity];
         }
 
         ~CircularDynamicArray(){
@@ -77,6 +77,7 @@ class CircularDynamicArray{
                 delete[] array;
                 deepCopy(c);
             }
+            cout << "copy called" << flush << endl;
             return *this;
         }
 
