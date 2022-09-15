@@ -10,6 +10,7 @@ class CircularDynamicArray{
         int front;
         int end;
         elmtype *array;
+        elmtype *bad;
 
         void grow(){
             capacity *= 2;
@@ -17,14 +18,16 @@ class CircularDynamicArray{
             for(int j = 0; j < size; j++)
             {
                 temp[j] = array[(front + j)%capacity];
-                cout << temp[j] << endl;
+                // cout << temp[j] << endl;
             }
-            array = new elmtype[capacity];
-            for(int i = 0; i < size; i++)
-            {
-                array[i] = temp[i];
-            }
-            // delete[] temp;
+            delete[] array;
+            array = temp;
+            // new elmtype[capacity];
+            // for(int i = 0; i < size; i++)
+            // {
+            //     array[i] = temp[i];
+            // }
+            delete[] temp;
             front = 0;
             end = size -1;
             cout << "Doubling to: " << capacity << endl;
@@ -46,6 +49,7 @@ class CircularDynamicArray{
             }
             cout << "deepCopy called" << endl << flush;
         }
+
     public:
         CircularDynamicArray(){
             size = 0;
@@ -64,7 +68,7 @@ class CircularDynamicArray{
         }
 
         ~CircularDynamicArray(){
-            cout << "Constructor Called" << flush << endl;
+            cout << "Destructor Called" << flush << endl;
             delete[] array;
         }
 
@@ -83,7 +87,8 @@ class CircularDynamicArray{
 
         elmtype& operator[](int i){
             if(i > size || i < 0) {
-                cout << "Array index is out of bounds";
+                cout << "Array index is out of bounds" << endl;
+                return *bad;
             } else {
                 return array[(front + i)%capacity];
             }
@@ -121,12 +126,19 @@ class CircularDynamicArray{
             return size;
         }
 
-        int Capacity()
-        {
+        int Capacity(){
             return capacity;
         }
 
-        void Clear();
+        void Clear(){
+            delete[] array;
+            array = new elmtype[2];
+            size = 0;
+            capacity = 2;
+            front = 0;
+            end = 0;
+            cout << "clear" << flush << endl;
+        }
         
         elmtype QuickSelect(int k);
         elmtype WCSelect(int k);
@@ -143,15 +155,16 @@ class CircularDynamicArray{
             int left = 0, right = size, center;   
             while (left <= right) {
                 center = (left + right) / 2;
-                if(array[center] == v) {
+                if(array[(front + center)%capacity] == v) {
                     return center;
                 }
-                if(array[center] < v) {
+                if(array[(front + center)%capacity] > v) {
                     left = center + 1;
                 } else {
                     right = center -1;
                 }
-                return -1;
             }
+            return -1;
         }
 };
+

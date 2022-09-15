@@ -26,34 +26,20 @@ int main(){
 	C.AddFront(100.0);
 	for (int i=0; i< C.Length();i++) cout << C[i] << " ";  cout << endl;
 	// C => "1 2 3 4 5 6 7 8 100"
-	C.AddFront(101.0);
+	C.AddFront(100.0);
 	for (int i=0; i< C.Length();i++) cout << C[i] << " ";  cout << endl;
-	C.AddFront(102.0);
-	for (int i=0; i< C.Length();i++) cout << C[i] << " ";  cout << endl;
-	C.AddFront(103.0);
-	for (int i=0; i< C.Length();i++) cout << C[i] << " ";  cout << endl;
-	C.AddFront(104.0);
-	for (int i=0; i< C.Length();i++) cout << C[i] << " ";  cout << endl;
-	C.AddFront(105.0);
-	for (int i=0; i< C.Length();i++) cout << C[i] << " ";  cout << endl;
-	C.AddFront(106.0);
-	for (int i=0; i< C.Length();i++) cout << C[i] << " ";  cout << endl;
-	C.AddFront(107.0);
-	for (int i=0; i< C.Length();i++) cout << C[i] << " ";  cout << endl;
-	C.AddFront(108.0);
-	for (int i=0; i< C.Length();i++) cout << C[i] << " ";  cout << endl;
-	C.AddFront(109.0);
-	for (int i=0; i< C.Length();i++) cout << C[i] << " ";  cout << endl;
-	C.AddFront(110.0);
-	for (int i=0; i< C.Length();i++) cout << C[i] << " ";  cout << endl;
-	C.AddFront(111.0);
-	for (int i=0; i< C.Length();i++) cout << C[i] << " ";  cout << endl;
-	C.AddFront(112.0);
-	for (int i=0; i< C.Length();i++) cout << C[i] << " ";  cout << endl;
-	C.AddFront(113.0);
-	for (int i=0; i< C.Length();i++) cout << C[i] << " ";  cout << endl;
-	// cout << C.Capacity() << endl;
-	// cout << C.Length() << endl;
+	for(int i = 0; i < 10; i++) {
+		C.AddFront(101.0);
+		for (int i=0; i< C.Length();i++) cout << C[i] << " ";  cout << endl;
+	}
+	for(int i = 0; i < 20; i++) {
+		C.AddFront(102.0);
+		for (int i=0; i< C.Length();i++) cout << C[i] << " ";  cout << endl;
+	}
+
+
+	cout << C.Capacity() << endl;
+	cout << C.Length() << endl;
 
 	// CircularDynamicArray<int> A,B;
 	// for(int i=0; i<10;i++) A.AddEnd(i);
