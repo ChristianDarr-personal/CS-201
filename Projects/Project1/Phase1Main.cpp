@@ -6,7 +6,7 @@ void foo(CircularDynamicArray<int> x) {
 	for (int i=0; i<x.Length()/2; i++)
 		x[i] = x[x.Length()/2+i];
 	// X => "5 4 3 2 0 5 5 4 3 2 0 5"	
-	for (int i=0; i< X.Length();i++) cout << X[i] << " ";  cout << endl;
+	for (int i=0; i< x.Length();i++) cout << x[i] << " ";  cout << endl;
 }
 
 int main(){
@@ -23,36 +23,66 @@ int main(){
 	C.AddEnd(100.0);
 	for (int i=0; i< C.Length();i++) cout << C[i] << " ";  cout << endl;
 	// C => "1 2 3 4 5 6 7 8 100"
+	C.AddFront(100.0);
+	for (int i=0; i< C.Length();i++) cout << C[i] << " ";  cout << endl;
+	// C => "1 2 3 4 5 6 7 8 100"
+	C.AddFront(101.0);
+	for (int i=0; i< C.Length();i++) cout << C[i] << " ";  cout << endl;
+	C.AddFront(102.0);
+	for (int i=0; i< C.Length();i++) cout << C[i] << " ";  cout << endl;
+	C.AddFront(103.0);
+	for (int i=0; i< C.Length();i++) cout << C[i] << " ";  cout << endl;
+	C.AddFront(104.0);
+	for (int i=0; i< C.Length();i++) cout << C[i] << " ";  cout << endl;
+	C.AddFront(105.0);
+	for (int i=0; i< C.Length();i++) cout << C[i] << " ";  cout << endl;
+	C.AddFront(106.0);
+	for (int i=0; i< C.Length();i++) cout << C[i] << " ";  cout << endl;
+	C.AddFront(107.0);
+	for (int i=0; i< C.Length();i++) cout << C[i] << " ";  cout << endl;
+	C.AddFront(108.0);
+	for (int i=0; i< C.Length();i++) cout << C[i] << " ";  cout << endl;
+	C.AddFront(109.0);
+	for (int i=0; i< C.Length();i++) cout << C[i] << " ";  cout << endl;
+	C.AddFront(110.0);
+	for (int i=0; i< C.Length();i++) cout << C[i] << " ";  cout << endl;
+	C.AddFront(111.0);
+	for (int i=0; i< C.Length();i++) cout << C[i] << " ";  cout << endl;
+	C.AddFront(112.0);
+	for (int i=0; i< C.Length();i++) cout << C[i] << " ";  cout << endl;
+	C.AddFront(113.0);
+	for (int i=0; i< C.Length();i++) cout << C[i] << " ";  cout << endl;
+	// cout << C.Capacity() << endl;
+	// cout << C.Length() << endl;
 
-
-	CircularDynamicArray<int> A,B;
-	for(int i=0; i<10;i++) A.AddEnd(i);
-	B = A;
-	A.AddEnd(15); A.AddEnd(19);
+	// CircularDynamicArray<int> A,B;
+	// for(int i=0; i<10;i++) A.AddEnd(i);
+	// B = A;
+	// A.AddEnd(15); A.AddEnd(19);
 	// A => "0 1 2 3 4 5 6 7 8 9 15 19" 
-	cout << "Select is " << A.Select(3) << endl;
-	// A => "0 1 2 3 4 5 6 7 8 9 15 19" Select => 2
-	cout << "Select is " << A.Search(5) << endl;
-	// A => "0 1 2 3 4 5 6 7 8 9 15 19" Search => 5
-	cout << "Select is " << A.BinSearch(12) << endl;
-	// A => "0 1 2 3 4 5 6 7 8 9 15 19" Search => -11
-	A.AddFront(10); 
-	// A => "10 0 1 2 3 4 5 6 7 8 9 15 19"
-	cout << "Select is " << A.Select(3) << endl;
-	// A => "10 0 1 2 3 4 5 6 7 8 9 15 19" Select => 2
-	cout << "Select is " << A.Search(5) << endl;
-	// A => "10 0 1 2 3 4 5 6 7 8 9 15 19" Search => 6
-	A.Sort();
-	// A => "0 1 2 3 4 5 6 7 8 9 10 15 19"
-	A.AddEnd(11); A.AddFront(1); A.AddFront(2); A.AddFront(3);
-	cout << "Capacity is " << A.Capacity() << endl;
-	// A => "3 2 1 0 1 2 3 4 5 6 7 8 9 10 15 19 11"	  Capacity => 32
-	A.DelFront(); A.DelFront();
-	// A => "1 0 1 2 3 4 5 6 7 8 9 10 15 19 11"	  Capacity => 32
+	// cout << "Select is " << A.Select(3) << endl;
+	// // A => "0 1 2 3 4 5 6 7 8 9 15 19" Select => 2
+	// cout << "Select is " << A.Search(5) << endl;
+	// // A => "0 1 2 3 4 5 6 7 8 9 15 19" Search => 5
+	// cout << "Select is " << A.BinSearch(12) << endl;
+	// // A => "0 1 2 3 4 5 6 7 8 9 15 19" Search => -11
+	// A.AddFront(10); 
+	// // A => "10 0 1 2 3 4 5 6 7 8 9 15 19"
+	// cout << "Select is " << A.Select(3) << endl;
+	// // A => "10 0 1 2 3 4 5 6 7 8 9 15 19" Select => 2
+	// cout << "Select is " << A.Search(5) << endl;
+	// // A => "10 0 1 2 3 4 5 6 7 8 9 15 19" Search => 6
+	// A.Sort();
+	// // A => "0 1 2 3 4 5 6 7 8 9 10 15 19"
+	// A.AddEnd(11); A.AddFront(1); A.AddFront(2); A.AddFront(3);
+	// cout << "Capacity is " << A.Capacity() << endl;
+	// // A => "3 2 1 0 1 2 3 4 5 6 7 8 9 10 15 19 11"	  Capacity => 32
+	// A.DelFront(); A.DelFront();
+	// // A => "1 0 1 2 3 4 5 6 7 8 9 10 15 19 11"	  Capacity => 32
 
-	foo(A);
-	for (int i=0; i< A.Length();i++) cout << A[i] << " ";  cout << endl;
-	// A => "1 0 1 2 3 4 5 6 7 8 9 10 15 19 11"
-	for (int i=0; i< B.Length();i++) cout << B[i] << " ";  cout << endl;
-	// B => "0 1 2 3 4 5 6 7 8 9"
+	// foo(A);
+	// for (int i=0; i< A.Length();i++) cout << A[i] << " ";  cout << endl;
+	// // A => "1 0 1 2 3 4 5 6 7 8 9 10 15 19 11"
+	// for (int i=0; i< B.Length();i++) cout << B[i] << " ";  cout << endl;
+	// // B => "0 1 2 3 4 5 6 7 8 9"
 }

@@ -12,10 +12,25 @@ class CircularDynamicArray{
         elmtype *array;
         void grow();
         void shrink();
+        void print();
     public:
         CircularDynamicArray();
         CircularDynamicArray(int s);
         ~CircularDynamicArray();
+
+        CircularDynamicArray(const CircularDynamicArray& c);
+        CircularDynamicArray& operator=(const CircularDynamicArray& c){
+            this->size = c.size;
+            this->capacity = c.capacity;
+            this->front = c.front;
+            this->end = c.end;
+            elmtype *b = new elmtype[capacity];
+            for(int i = 0; i < size; i++){
+                b[i] = c[i];
+            }
+            this->array = b;
+            cout << "Copy operator Called" << endl;
+        }
 
         elmtype& operator[](int i);
 
@@ -39,6 +54,28 @@ class CircularDynamicArray{
 };
 
 template <class elmtype>
+void CircularDynamicArray<elmtype>::grow(){
+    capacity *= 2;
+    elmtype *b;
+    b = new elmtype[size];
+    b = array;
+    array = new elmtype[capacity];
+    for(int i = 0; i < size - 1; i++)
+    {
+        array[i] = b[i];
+    }
+    delete[] b;
+}
+
+template <class elmtype>
+void CircularDynamicArray<elmtype>::print(){
+    for (int i=0; i< size;i++) cout << array[i] << endl;
+}
+template <class elmtype>
+void CircularDynamicArray<elmtype>::shrink(){
+
+}
+template <class elmtype>
 CircularDynamicArray<elmtype>::CircularDynamicArray(){
     size = 0;
     capacity = 2;
@@ -58,6 +95,8 @@ CircularDynamicArray<elmtype>::CircularDynamicArray(int s){
 
 template <class elmtype>
 CircularDynamicArray<elmtype>::~CircularDynamicArray(){
+    delete[] array;
+    cout << "Destructor Called" << endl;
 }
 
 
@@ -66,14 +105,17 @@ elmtype& CircularDynamicArray<elmtype>:: operator[](int i){
     if(i > size || i < 0) {
         cout << "Array index is out of bounds";
     } else {
-        return array[(front + i)%(size+1)];
+        return array[(front + i)%capacity];
     }
 }
 
 template <class elmtype>
 void CircularDynamicArray<elmtype>::AddFront(elmtype v){
     size += 1;
-    front = (front - 1)%(size+1);
+    if(size > capacity){
+        grow();
+    }
+    front = (front - 1)%(capacity);
     array[front] = v;
 }
 
@@ -81,21 +123,21 @@ template <class elmtype>
 void CircularDynamicArray<elmtype>::AddEnd(elmtype v){
     size += 1;
     if(size > capacity) {
-        capacity
+        capacity;
     }
-    end = (end + 1)%(size+1);
+    end = (end + 1)%(capacity);
     array[end] = v;
 }
 
 template <class elmtype>
 void CircularDynamicArray<elmtype>::DelFront(){
-    front = (front + 1)%(size+1);
+    front = (front + 1)%(capacity);
     size -= 1;
 }
 
 template <class elmtype>
 void CircularDynamicArray<elmtype>::DelEnd(){
-    end = (end - 1)%(size+1);
+    end = (end - 1)%(capacity);
     size -= 1;
 }
 
