@@ -19,16 +19,27 @@ class CircularDynamicArray{
                 temp[j] = array[(front + j)%cap];
                 // cout << temp[j] << endl;
             }
-            
-            this->array = temp;
+            // delete[] array;
+            array = temp;
             cap *=2;
             front = 0;
-            end = size -1;
+            end = size - 1;
             cout << "Doubling to: " << cap << endl;
-            // delete[] ptDelete;
         }
 
-        void shrink();
+        void shrink(){
+            elmtype* temp = new elmtype[cap/2];
+            for(int j = 0; j < size; j++)
+            {
+                temp[j] = array[(front + j)%cap];
+            }
+            // delete[] array;
+            array = temp;
+            cap /=2;
+            front = 0;
+            end = size - 1;
+            cout << "Doubling to: " << cap << endl;
+        }
         void print(){
             for (int i=0; i< size;i++) cout << array[i] << endl;        
         }
@@ -44,7 +55,10 @@ class CircularDynamicArray{
             }
             cout << "deepCopy called" << endl << flush;
         }
-        void select()
+
+        void merge(){
+
+        }
 
     public:
         CircularDynamicArray(){
@@ -94,8 +108,12 @@ class CircularDynamicArray{
             size += 1;
             if(size > cap){
                 grow();
+            } else {
+                front = (front - 1)%(cap);
             }
-            front = (front - 1)%(cap);
+            if(front < 0){
+                front = cap + front;
+            }
             array[front] = v;
         }
 
@@ -103,19 +121,28 @@ class CircularDynamicArray{
         void addEnd(elmtype v){
             size += 1;
             if(size > cap) {
-                cap;
+                grow();
+            } else {
+                end = (end + 1)%(cap);
             }
-            end = (end + 1)%(cap);
             array[end] = v;
         }
 
         void delFront(){
-            front = (front + 1)%(cap);
-            size -= 1;      
-        }
-        void delEnd(){
-            end = (end - 1)%(cap);
             size -= 1;
+            if(size < cap/4) {
+                shrink();
+            }
+            front = (front + 1)%(cap);
+        }
+
+        void delEnd(){
+            size -= 1;
+            if(size < cap/4) {
+                shrink();
+            }
+            end = (end - 1)%(cap);
+            
         }
 
         int length(){
@@ -136,17 +163,38 @@ class CircularDynamicArray{
             cout << "clear" << flush << endl;
         }
         
-        elmtype QuickSelect(int k){
-          
-        }
+        // elmtype QuickSelect(int k){
+        //     int pivot = array[(front + 5)%(cap)];
+        //     int l, e, g;
+        //     for(int i = 0; i < size; i++){
+        //         int x = array[(front + i)%(cap)];
+        //         if (x<pivot){
+        //             l++;
+        //         } else if (x==pivot){
+        //             e++;
+        //         } else{
+        //             g++;
+        //         }
+        //     }
+        //     if (k <= l){
+        //         return Select (k);
+        //     }
+        //     else if (k <= l + e){
+        //         return pivot; 
+        //     } else {
+        //         return Select (k - l - e);
+        //     }
+        // }
 
         elmtype WCSelect(int k);
 
-        void stableSort();
+        void stableSort(){
+
+        }
 
         int linearSearch(elmtype v){
             for(int i = 0; i < size; i++){
-                if(array[array[(front + i)%cap] == v){
+                if(array[(front + i)%cap] == v){
                     return i;
                 }
             }

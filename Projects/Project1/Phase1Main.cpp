@@ -3,72 +3,91 @@ using namespace std;
 #include "CircularDynamicArray.cpp"
 
 void foo(CircularDynamicArray<int> x) {
-	for (int i=0; i<x.Length()/2; i++)
-		x[i] = x[x.Length()/2+i];
-	// X => "5 4 3 2 0 5 5 4 3 2 0 5"	
-	for (int i=0; i< x.Length();i++) cout << x[i] << " ";  cout << endl;
+	for (int i=0; i<x.length()/2; i++)
+		x[i] = x[x.length()/2+i];
+	// X => "6 7 8 9 10 15 19 6 7 8 9 10 15 19 11"	
+	for (int i=0; i< x.length();i++) cout << x[i] << " ";  cout << endl;
 }
 
+// void doubleNTimes(CircularDynamicArray<int> x, int n) {
+// 	for(int i = 0; i < n; i++){
+// 		while(x.length() != x.capacity()){
+// 			x.addFront(i);
+// 		}
+// 		for (int k=0; k < x.length();k++){
+// 			cout << x[k] << " " << flush << endl;
+// 		}
+// 	}
+// }
 int main(){
+	// CircularDynamicArray<int> T;
+	// doubleNTimes(T, 2);
+
 	CircularDynamicArray<float> C(10);
-	for (int i=0; i< C.Length();i++) C[i] = i;
-	for (int i=0; i< C.Length();i++) cout << C[i] << " ";  cout << endl;
+	
+	for (int i=0; i< C.length();i++) C[i] = i;
+	for (int i=0; i< C.length();i++) cout << C[i] << " ";  cout << endl;
+	for(int j = 11; j < 21; j++){
+		C.addFront(1.0);
+		for (int i=0; i< C.length();i++) cout << C[i] << " ";  cout << endl;
+	}
+	// C.QuickSelect(2);
+	for(int j = 30; j < 50; j++){
+		C.addFront(double(j));
+		for (int i=0; i< C.length();i++) cout << C[i] << " ";  cout << endl;
+	}
+	for(int j = 30; j < 50; j++){
+		C.addFront(double(j));
+		for (int i=0; i< C.length();i++) cout << C[i] << " ";  cout << endl;
+	}
 	// C => "0 1 2 3 4 5 6 7 8 9"
-	C.DelFront();
-	for (int i=0; i< C.Length();i++) cout << C[i] << " ";  cout << endl;
-	// C => "1 2 3 4 5 6 7 8 9"
-	C.DelEnd();
-	for (int i=0; i< C.Length();i++) cout << C[i] << " ";  cout << endl;
-	// C => "1 2 3 4 5 6 7 8"
-	C.AddEnd(100.0);
-	for (int i=0; i< C.Length();i++) cout << C[i] << " ";  cout << endl;
-	// C => "1 2 3 4 5 6 7 8 100"
-	C.AddFront(100.0);
-	for (int i=0; i< C.Length();i++) cout << C[i] << " ";  cout << endl;
-	// C => "1 2 3 4 5 6 7 8 100"
-	C.AddFront(100.0);
-	for (int i=0; i< C.Length();i++) cout << C[i] << " ";  cout << endl;
-	for(int i = 0; i < 10; i++) {
-		C.AddFront(101.0);
-		for (int i=0; i< C.Length();i++) cout << C[i] << " ";  cout << endl;
-	}
-	for(int i = 0; i < 20; i++) {
-		C.AddFront(102.0);
-		for (int i=0; i< C.Length();i++) cout << C[i] << " ";  cout << endl;
-	}
+	// C.delFront();
+	// for (int i=0; i< C.length();i++) cout << C[i] << " ";  cout << endl;
+	// // C => "1 2 3 4 5 6 7 8 9"
+	// C.delEnd();
+	// for (int i=0; i< C.length();i++) cout << C[i] << " ";  cout << endl;
+	// // C => "1 2 3 4 5 6 7 8"
+	// C.addEnd(100.0);
+	// for (int i=0; i< C.length();i++) cout << C[i] << " ";  cout << endl;
+	// // C => "1 2 3 4 5 6 7 8 100"
+	// C.delFront();
+	// C.addEnd(200.0);
+	// // C => "2 3 4 5 6 7 8 100 200"	
 
-
-	cout << C.Capacity() << endl;
-	cout << C.Length() << endl;
+	// C.addEnd(300.0);
+	// C.addEnd(400.0);
+	// // C => "2 3 4 5 6 7 8 100 200 300 400"	
 
 	// CircularDynamicArray<int> A,B;
-	// for(int i=0; i<10;i++) A.AddEnd(i);
+	// for(int i=0; i<10;i++) A.addEnd(i);
 	// B = A;
-	// A.AddEnd(15); A.AddEnd(19);
-	// A => "0 1 2 3 4 5 6 7 8 9 15 19" 
-	// cout << "Select is " << A.Select(3) << endl;
-	// // A => "0 1 2 3 4 5 6 7 8 9 15 19" Select => 2
-	// cout << "Select is " << A.Search(5) << endl;
+	// A.addEnd(15); A.addEnd(19);
+	// // A => "0 1 2 3 4 5 6 7 8 9 15 19" 
+	// cout << "Select is " << A.linearSearch(5) << endl;
 	// // A => "0 1 2 3 4 5 6 7 8 9 15 19" Search => 5
-	// cout << "Select is " << A.BinSearch(12) << endl;
-	// // A => "0 1 2 3 4 5 6 7 8 9 15 19" Search => -11
-	// A.AddFront(10); 
+	// cout << "Select is " << A.binSearch(12) << endl;
+	// // A => "0 1 2 3 4 5 6 7 8 9 15 19" Search => -1
+	// cout << "Select is " << A.binSearch(15) << endl;
+	// // A => "0 1 2 3 4 5 6 7 8 9 15 19" Search => 10	
+	// A.addFront(10); 
 	// // A => "10 0 1 2 3 4 5 6 7 8 9 15 19"
-	// cout << "Select is " << A.Select(3) << endl;
-	// // A => "10 0 1 2 3 4 5 6 7 8 9 15 19" Select => 2
-	// cout << "Select is " << A.Search(5) << endl;
+	// cout << "Select is " << A.linearSearch(5) << endl;
 	// // A => "10 0 1 2 3 4 5 6 7 8 9 15 19" Search => 6
-	// A.Sort();
+	// cout << "Select is " << A.QuickSelect(3) << endl;
+    // // Select => 2	
+	// cout << "Select is " << A.WCSelect(12) << endl;
+	// // Select => 15
+	// A.stableSort();
 	// // A => "0 1 2 3 4 5 6 7 8 9 10 15 19"
-	// A.AddEnd(11); A.AddFront(1); A.AddFront(2); A.AddFront(3);
-	// cout << "Capacity is " << A.Capacity() << endl;
-	// // A => "3 2 1 0 1 2 3 4 5 6 7 8 9 10 15 19 11"	  Capacity => 32
-	// A.DelFront(); A.DelFront();
-	// // A => "1 0 1 2 3 4 5 6 7 8 9 10 15 19 11"	  Capacity => 32
+	// A.addEnd(11); A.addFront(1); A.addFront(2); A.addFront(3);
+	// cout << "capacity is " << A.capacity() << endl;
+	// // A => "3 2 1 0 1 2 3 4 5 6 7 8 9 10 15 19 11"	  capacity => 32
+	// A.delFront(); A.delFront();
+	// // A => "1 0 1 2 3 4 5 6 7 8 9 10 15 19 11"	  capacity => 32
 
 	// foo(A);
-	// for (int i=0; i< A.Length();i++) cout << A[i] << " ";  cout << endl;
+	// for (int i=0; i< A.length();i++) cout << A[i] << " ";  cout << endl;
 	// // A => "1 0 1 2 3 4 5 6 7 8 9 10 15 19 11"
-	// for (int i=0; i< B.Length();i++) cout << B[i] << " ";  cout << endl;
+	// for (int i=0; i< B.length();i++) cout << B[i] << " ";  cout << endl;
 	// // B => "0 1 2 3 4 5 6 7 8 9"
 }
