@@ -16,13 +16,12 @@ class CircularDynamicArray{
             elmtype* temp = new elmtype[cap*2];
             for(int j = 0; j < size; j++){
                 temp[j] = array[(front + j)%cap];
-                cout << temp[j] << endl;
             }
+            delete[] array;
             array = temp;
             cap *=2;
             front = 0;
             end = size - 1;
-            cout << "Doubling to: " << cap << endl;
         }
 
         void shrink(){
@@ -31,14 +30,10 @@ class CircularDynamicArray{
             {
                 temp[j] = array[(front + j)%cap];
             }
-            // delete[] array;
+            delete[] array;
             array = temp;
             cap /=2;
             front = 0;
-            cout << "Doubling to: " << cap << endl;
-        }
-        void print(){
-            for (int i=0; i< size;i++) cout << array[i] << endl;        
         }
 
         void deepCopy(const CircularDynamicArray &c){
@@ -87,7 +82,6 @@ class CircularDynamicArray{
                 delete[] array;
                 deepCopy(c);
             }
-            // cout << "copy called" << flush << endl;
             return *this;
         }
 
@@ -112,7 +106,6 @@ class CircularDynamicArray{
             array[front] = v;
         }
 
-
         void addEnd(elmtype v){
             if(size + 1 > cap) {
                 grow();
@@ -123,19 +116,18 @@ class CircularDynamicArray{
         }
 
         void delFront(){
-            size -= 1;
-            if(size < cap/4) {
+            if(size - 1 < cap/4) {
                 shrink();
             }
+            size -= 1;
             front = (front + 1)%(cap);
         }
 
         void delEnd(){
-            size -= 1;
-            if(size < cap/4) {
+            if(size - 1 < cap/4) {
                 shrink();
             }
-            
+            size -= 1;
         }
 
         int length(){

@@ -9,20 +9,7 @@ void foo(CircularDynamicArray<int> x) {
 	for (int i=0; i< x.length();i++) cout << x[i] << " ";  cout << endl;
 }
 
-// void doubleNTimes(CircularDynamicArray<int> x, int n) {
-// 	for(int i = 0; i < n; i++){
-// 		while(x.length() != x.capacity()){
-// 			x.addFront(i);
-// 		}
-// 		for (int k=0; k < x.length();k++){
-// 			cout << x[k] << " " << flush << endl;
-// 		}
-// 	}
-// }
 int main(){
-	// CircularDynamicArray<int> T;
-	// doubleNTimes(T, 2);
-
 	CircularDynamicArray<float> C(10);
 	
 	for (int i=0; i< C.length();i++) C[i] = i;
@@ -33,7 +20,7 @@ int main(){
 	}
 	int x = C.length();
 	for(int j =x; j < x*2; j++){
-		C.addFront(j);
+		C.delFront();
 		for (int i=0; i< C.length();i++) cout << C[i] << " ";  cout << endl;
 	}
 	// C => "0 1 2 3 4 5 6 7 8 9"
