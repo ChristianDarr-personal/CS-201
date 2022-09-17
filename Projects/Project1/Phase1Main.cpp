@@ -27,17 +27,13 @@ int main(){
 	
 	for (int i=0; i< C.length();i++) C[i] = i;
 	for (int i=0; i< C.length();i++) cout << C[i] << " ";  cout << endl;
-	for(int j = 11; j < 21; j++){
-		C.addFront(1.0);
+	for(int j = 10; j < 20; j++){
+		C.addEnd(j);
 		for (int i=0; i< C.length();i++) cout << C[i] << " ";  cout << endl;
 	}
-	// C.QuickSelect(2);
-	for(int j = 30; j < 50; j++){
-		C.addFront(double(j));
-		for (int i=0; i< C.length();i++) cout << C[i] << " ";  cout << endl;
-	}
-	for(int j = 30; j < 50; j++){
-		C.addFront(double(j));
+	int x = C.length();
+	for(int j =x; j < x*2; j++){
+		C.addFront(j);
 		for (int i=0; i< C.length();i++) cout << C[i] << " ";  cout << endl;
 	}
 	// C => "0 1 2 3 4 5 6 7 8 9"

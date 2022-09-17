@@ -14,12 +14,10 @@ class CircularDynamicArray{
 
         void grow(){
             elmtype* temp = new elmtype[cap*2];
-            for(int j = 0; j < size; j++)
-            {
+            for(int j = 0; j < size; j++){
                 temp[j] = array[(front + j)%cap];
-                // cout << temp[j] << endl;
+                cout << temp[j] << endl;
             }
-            // delete[] array;
             array = temp;
             cap *=2;
             front = 0;
@@ -37,7 +35,6 @@ class CircularDynamicArray{
             array = temp;
             cap /=2;
             front = 0;
-            end = size - 1;
             cout << "Doubling to: " << cap << endl;
         }
         void print(){
@@ -48,7 +45,6 @@ class CircularDynamicArray{
             this->size = c.size;
             this->cap = c.cap;
             this->front = c.front;
-            this->end = c.end;
             this->array = new elmtype[cap];
             for(int i = 0; i < size; i++){
                 array[i] = c.array[i];
@@ -64,8 +60,8 @@ class CircularDynamicArray{
         CircularDynamicArray(){
             size = 0;
             cap = 2;
-            end = 0;
             front = 0;
+            end = 0;
             array = new elmtype[cap];
         }
 
@@ -73,7 +69,7 @@ class CircularDynamicArray{
             size = s;
             cap = s;
             front = 0;
-            end = this->size - 1;
+            end = 0;
             array = new elmtype[cap];
         }
 
@@ -91,7 +87,7 @@ class CircularDynamicArray{
                 delete[] array;
                 deepCopy(c);
             }
-            cout << "copy called" << flush << endl;
+            // cout << "copy called" << flush << endl;
             return *this;
         }
 
@@ -105,26 +101,24 @@ class CircularDynamicArray{
         }
 
         void addFront(elmtype v){
-            size += 1;
-            if(size > cap){
+            if(size + 1 > cap){
                 grow();
-            } else {
-                front = (front - 1)%(cap);
             }
+            size += 1;
+            front -= 1;
             if(front < 0){
-                front = cap + front;
+                front = cap - 1;
             }
             array[front] = v;
         }
 
 
         void addEnd(elmtype v){
-            size += 1;
-            if(size > cap) {
+            if(size + 1 > cap) {
                 grow();
-            } else {
-                end = (end + 1)%(cap);
             }
+            size += 1;
+            end += 1;
             array[end] = v;
         }
 
@@ -141,7 +135,6 @@ class CircularDynamicArray{
             if(size < cap/4) {
                 shrink();
             }
-            end = (end - 1)%(cap);
             
         }
 
