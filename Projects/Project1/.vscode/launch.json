@@ -2,19 +2,6 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "(gdb) Launch",
-            "type": "cppdbg",
-            "request": "launch",
-            "program": "C:\\Users\\Christian Darr\\OneDrive\\Documents\\Classes\\2022 Fall\\CS 201\\CS-201\\Projects\\Project1/Phase1.exe",
-            "args": [],
-            "stopAtEntry": true,
-            "cwd": "${fileDirname}",
-            "environment": [],
-            "externalConsole": false,
-            "MIMode": "gdb",
-            "miDebuggerPath": "C:/cygwin64/bin/gdb.exe"
-        },
-        {
             "name": "C/C++: g++ build and debug active file",
             "type": "cppdbg",
             "request": "launch",

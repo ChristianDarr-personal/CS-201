@@ -47,8 +47,54 @@ class CircularDynamicArray{
             cout << "deepCopy called" << endl << flush;
         }
 
-        void merge(){
+        void mergeSort(elmtype* arr, int n){
+            if(n <= 1){
+                return;
+            }
+            elmtype* left = new elmtype[n/2];
+            elmtype* right = new elmtype[n - n/2];
+            cout << "left: ";
+            for(int i = 0; i < n/2; i++){
+                if(&arr == &array) {
+                    left[i] = arr[(front + i)%cap];
+                } else {
+                    left[i] = arr[i];
+                }
+            }
+            cout << endl;
+            cout << "right: ";
+            for(int i = n/2; i < n; i++){
+                if(&arr == &array) {
+                    right[i-n/2] = arr[(front + i)%cap];
+                } else {
+                    right[i-n/2] = arr[i];
+                }
+            }
+            cout << endl;
+            mergeSort(left, n/2);
+            mergeSort(right, n-n/2);
+            merge(arr, left, right, n);
+        }
 
+        void merge(elmtype* arr, elmtype* left, elmtype* right, int n){
+            int leftSize = n/2;
+            int rightSize = n - n/2;
+            int leftPos = 0;
+            int rightPos = 0;
+            int mergePos = 0;
+            while(leftPos < leftSize && rightPos < rightSize){
+                if(left[leftPos] < right[rightPos]){
+                    arr[mergePos++] = left[leftPos++];
+                } else {
+                    arr[mergePos++] = right[rightPos++];
+                }
+            }
+            while(leftPos < leftSize){
+                arr[mergePos++] = left[leftPos++];
+            }
+            while(rightPos < rightSize){
+                arr[mergePos++] = right[rightPos++];
+            }
         }
 
     public:
@@ -174,7 +220,9 @@ class CircularDynamicArray{
         elmtype WCSelect(int k);
 
         void stableSort(){
-
+            mergeSort(array, size);
+            front = 0;
+            end = size - 1;
         }
 
         int linearSearch(elmtype v){

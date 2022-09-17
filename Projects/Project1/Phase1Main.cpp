@@ -15,14 +15,20 @@ int main(){
 	for (int i=0; i< C.length();i++) C[i] = i;
 	for (int i=0; i< C.length();i++) cout << C[i] << " ";  cout << endl;
 	for(int j = 10; j < 20; j++){
-		C.addEnd(j);
+		C.addFront(j);
 		for (int i=0; i< C.length();i++) cout << C[i] << " ";  cout << endl;
 	}
+	C.stableSort();
+	for (int i=0; i< C.length();i++) cout << C[i] << " ";  cout << endl;
+	cout << C.binSearch(13.0) << endl;
 	int x = C.length();
 	for(int j =x; j < x*2; j++){
-		C.delFront();
+		C.addFront(j);
 		for (int i=0; i< C.length();i++) cout << C[i] << " ";  cout << endl;
 	}
+	
+	for (int i=0; i< C.length();i++) cout << C[i] << " ";  cout << endl;
+
 	// C => "0 1 2 3 4 5 6 7 8 9"
 	// C.delFront();
 	// for (int i=0; i< C.length();i++) cout << C[i] << " ";  cout << endl;
