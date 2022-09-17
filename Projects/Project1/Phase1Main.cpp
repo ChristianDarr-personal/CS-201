@@ -19,8 +19,10 @@ int main(){
 		for (int i=0; i< C.length();i++) cout << C[i] << " ";  cout << endl;
 	}
 	C.stableSort();
+	
 	for (int i=0; i< C.length();i++) cout << C[i] << " ";  cout << endl;
-	cout << C.binSearch(13.0) << endl;
+	cout << "bin search" << C.binSearch(13.0) << endl;
+	cout << "lin search" << C.linearSearch(14.0) << endl;
 	int x = C.length();
 	for(int j =x; j < x*2; j++){
 		C.addFront(j);

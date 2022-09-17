@@ -53,7 +53,6 @@ class CircularDynamicArray{
             }
             elmtype* left = new elmtype[n/2];
             elmtype* right = new elmtype[n - n/2];
-            cout << "left: ";
             for(int i = 0; i < n/2; i++){
                 if(&arr == &array) {
                     left[i] = arr[(front + i)%cap];
@@ -61,8 +60,6 @@ class CircularDynamicArray{
                     left[i] = arr[i];
                 }
             }
-            cout << endl;
-            cout << "right: ";
             for(int i = n/2; i < n; i++){
                 if(&arr == &array) {
                     right[i-n/2] = arr[(front + i)%cap];
@@ -70,7 +67,6 @@ class CircularDynamicArray{
                     right[i-n/2] = arr[i];
                 }
             }
-            cout << endl;
             mergeSort(left, n/2);
             mergeSort(right, n-n/2);
             merge(arr, left, right, n);
@@ -234,19 +230,23 @@ class CircularDynamicArray{
         }
 
         int binSearch(elmtype v){
-            int left = 0, right = size, center;   
-            while (left <= right) {
-                center = (left + right) / 2;
-                if(array[(front + center)%cap] == v) {
-                    return center;
-                }
-                if(array[(front + center)%cap] > v) {
-                    left = center + 1;
-                } else {
-                    right = center -1;
-                }
+            return search(v, 0, size - 1);
+        }
+
+        int search(elmtype x, int l, int r){
+            int c;
+            c = (l + r) / 2;
+            
+            if (l > r) {
+                return -1;
             }
-            return -1;
+            if(array[(front + c)%cap] == x) {
+                return c;
+            } else if(x < array[(front + c)%cap]) {
+                search(x, l, c - 1);
+            } else if(x > array[(front + c)%cap]){
+                search(x, c + 1, r);
+            }
         }
 };
 
