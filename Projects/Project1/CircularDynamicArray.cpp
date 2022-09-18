@@ -179,7 +179,6 @@ class CircularDynamicArray{
         }
 
         ~CircularDynamicArray(){
-            cout << "Destructor Called" << flush << endl;
             delete[] array;
         }
 
@@ -221,7 +220,7 @@ class CircularDynamicArray{
                 grow();
             }
             size += 1;
-            array[(front + (size - 1)%cap)] = v;
+            array[((front + (size - 1))%cap)] = v;
         }
 
         void delFront(){
