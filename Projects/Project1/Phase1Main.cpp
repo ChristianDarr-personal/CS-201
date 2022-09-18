@@ -59,13 +59,29 @@ int main(){
 	// Select => 15
 	A.stableSort();
 	// A => "0 1 2 3 4 5 6 7 8 9 10 15 19"
-	A.addEnd(11); A.addFront(1); A.addFront(2); A.addFront(3);
+    cout << "problem area" << endl;
+    for (int i=0; i< A.length();i++) cout << A[i] << " ";  cout << endl;
+
+	A.addEnd(11);
+    for (int i=0; i< A.length();i++) cout << A[i] << " ";  cout << endl;
+
+    A.addFront(1); 
+    for (int i=0; i< A.length();i++) cout << A[i] << " ";  cout << endl;
+
+    A.addFront(2); 
+    for (int i=0; i< A.length();i++) cout << A[i] << " ";  cout << endl;
+
+
+    A.addFront(3);
+    for (int i=0; i< A.length();i++) cout << A[i] << " ";  cout << endl;
+
 	cout << "capacity is " << A.capacity() << endl;
 	// A => "3 2 1 0 1 2 3 4 5 6 7 8 9 10 15 19 11"	  capacity => 32
     for (int i=0; i< A.length();i++) cout << A[i] << " ";  cout << endl;
 
 	A.delFront(); A.delFront();
 	// A => "1 0 1 2 3 4 5 6 7 8 9 10 15 19 11"	  capacity => 32
+    for (int i=0; i< A.length();i++) cout << A[i] << " ";  cout << endl;
 
 	foo(A);
 	for (int i=0; i< A.length();i++) cout << A[i] << " ";  cout << endl;

@@ -41,24 +41,33 @@ class CircularDynamicArray{
             this->bad = c.bad;
             this->array = new elmtype[cap];
             for(int i = 0; i < size; i++){
-                array[i] = c.array[i];
+                array[(front + i)%cap] = c.array[(c.front + i)%c.cap];
             }
         }
 
-        void mergeSort(elmtype* arr, int n){
+        void mergeSort(elmtype* arr, int n, bool pass){
             if(n <= 1){
                 return;
             }
             elmtype* left = new elmtype[n/2];
             elmtype* right = new elmtype[n - n/2];
             for(int i = 0; i < n/2; i++){
+                if(pass){
+                    left[i] = arr[(i + front)%cap];
+                } else{
                     left[i] = arr[i];
+                }
             }
             for(int i = n/2; i < n; i++){
+                if(pass){
+                    right[i-n/2] = arr[(i + front)%cap];
+                } else{
                     right[i-n/2] = arr[i];
+                }
+                
             }
-            mergeSort(left, n/2);
-            mergeSort(right, n-n/2);
+            mergeSort(left, n/2, false);
+            mergeSort(right, n-n/2, false);
             merge(arr, left, right, n);
         }
 
@@ -256,7 +265,7 @@ class CircularDynamicArray{
         // }
 
         void stableSort(){
-            mergeSort(array, size);
+            mergeSort(array, size, true);
             front = 0;
         }
 
