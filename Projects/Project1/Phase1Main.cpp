@@ -10,6 +10,8 @@ void foo(CircularDynamicArray<int> x) {
 }
 
 int main(){
+
+	cout << __cplusplus << endl;
 	CircularDynamicArray<float> C(10);
 	for (int i=0; i< C.length();i++) C[i] = i;
 	for (int i=0; i< C.length();i++) cout << C[i] << " ";  cout << endl;
@@ -55,7 +57,7 @@ int main(){
     for (int i=0; i< A.length();i++) cout << A[i] << " ";  cout << endl;
 
     // Select => 2	
-	// cout << "Select is " << A.WCSelect(12) << endl;
+	cout << "Select is " << A.WCSelect(5) << endl;
 	// Select => 15
 	A.stableSort();
 	// A => "0 1 2 3 4 5 6 7 8 9 10 15 19"

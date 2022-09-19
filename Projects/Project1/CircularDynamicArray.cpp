@@ -34,6 +34,8 @@ class CircularDynamicArray{
             front = 0;
         }
 
+        
+
         void deepCopy(const CircularDynamicArray &c){
             this->size = c.size;
             this->cap = c.cap;
@@ -92,35 +94,100 @@ class CircularDynamicArray{
             }
         }
 
-        // elmtype selectWC(elmtype* arr, int k, int s){
-        //     int g = 5;
+        elmtype medianArray(elmtype* arr, int off, int s){
+            int minIndex;
+            elmtype temp;
+            for (int i = off; i < s + off; i++){
+                minIndex = i;
+                for (int j = i + 1; j < off + s; j++){
+                    if (arr[j] < arr[minIndex]){
+                        minIndex = j;
+                    }
+                }
+                temp = arr[minIndex];
+                arr[minIndex] = arr[i];
+                arr[i] = temp;
+            }
+            elmtype x = arr[off + s/2];
+            return x;
+        }
 
-        //     int l = 0, e = 0, g = 0;
-        //     elmtype* less = new elmtype[s];
-        //     elmtype* greater = new elmtype[s];
-        //     for(int i = 0; i < s; i++){
-        //         elmtype x;
-        //         x = arr[i];
-        //         if (x<pivot){
-        //                 less[l++] = x;
-        //         } else if (x == pivot){
-        //             e++;
-        //         } else{
-        //             greater[g++] = x;
-        //         }
-        //     }
-        //     if (k <= l){
-        //         return selectNormal(less, k, l, wc);
-        //     }
-        //     else if (k <= l + e){
-        //         return pivot; 
-        //     } else {
-        //         return selectNormal(greater, k - l - e, g);
-        //     }
-        // }
+        elmtype selectWC(elmtype* arr, int l, int r, int k){
+            if (k > 0 && k <= r - l + 1){
+                elmtype pivot;
+                int n = r-l+1; 
+                int medOfMed;
+                int i;
+                elmtype medianArr[(n+4)/5];
+                for (i=0; i<n/5; i++){
+                    medianArr[i] = medianArray(arr, i*5, 5);
+                }
+                if (i*5 < n){
+                    medianArr[i] = medianArray(arr, i*5, n%5);
+                    i++;
+                }
+
+                if(i == 1){
+                    pivot = medianArr[i - 1];
+                } else {
+                    selectWC(medianArr, 0, i-1, i/2);
+                }
+                elmtype x;
+                int l = 0, e = 0, g = 0;
+                elmtype* less = new elmtype[n];
+                elmtype* greater = new elmtype[n];
+                for(int i = 0; i < n; i++){
+                        x = arr[i];
+                    if (x<pivot){
+                            less[l++] = x;
+                    } else if (x == pivot){
+                        e++;
+                    } else{
+                        greater[g++] = x;
+                    }
+                }
+                if (k <= l){
+                    return selectWC(less, 0, l -1, k);
+                }
+                else if (k <= l + e){
+                    return pivot; 
+                } else {
+                    return selectWC(greater, 0, g -1, k - l - e);
+                }
+            }
+        }
+
+        void swap(int *a, int *b)
+        {
+            int temp = *a;
+            *a = *b;
+            *b = temp;
+        }
+
+
+        int partition(elmtype* arr, int l, int r, int x)
+        {
+            int i;
+            for (i=l; i<r; i++)
+                if (arr[i] == x)
+                break;
+            swap(&arr[i], &arr[r]);
+
+            i = l;
+            for (int j = l; j <= r - 1; j++)
+            {
+                if (arr[j] <= x)
+                {
+                    swap(&arr[i], &arr[j]);
+                    i++;
+                }
+            }
+            swap(&arr[i], &arr[r]);
+            return i;
+        }
 
         elmtype selectNormal(elmtype* arr, int k, int s, bool pass){
-            int pivot = arr[rand() % s];
+            int pivot = arr[s/2];
             int l = 0, e = 0, g = 0;
             elmtype x;
             elmtype* less = new elmtype[s];
@@ -259,9 +326,13 @@ class CircularDynamicArray{
             return selectNormal(array, k, size, true);
         }
 
-        // elmtype WCSelect(int k){
-        //     return selectWC(array, k, size);
-        // }
+        elmtype WCSelect(int k){
+            elmtype* temp = new elmtype[size];
+            for(int i = 0; i < size; i++){
+                temp[i] = array[(front + i)%cap];
+            }
+            return selectWC(temp, 0, size - 1, k);
+        }
 
         void stableSort(){
             mergeSort(array, size, true);
