@@ -191,7 +191,7 @@ class CircularDynamicArray{
         }
 
         elmtype selectNormal(elmtype* arr, int k, int s, bool pass){
-            int pivot = arr[rand() % s];
+            int pivot = arr[s/2];
             int l = 0, e = 0, g = 0;
             elmtype x;
             elmtype* less = new elmtype[s];
