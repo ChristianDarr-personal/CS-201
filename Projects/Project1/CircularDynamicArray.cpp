@@ -155,6 +155,10 @@ class CircularDynamicArray{
                     return selectWC(greater, 0, g -1, k - l - e);
                 }
             }
+            // delete[] medianArr;
+            // delete[] less;
+            // delete[] greater;
+            // return bad;
         }
 
         void swap(int *a, int *b)
@@ -187,7 +191,7 @@ class CircularDynamicArray{
         }
 
         elmtype selectNormal(elmtype* arr, int k, int s, bool pass){
-            int pivot = arr[s/2];
+            int pivot = arr[rand() % s];
             int l = 0, e = 0, g = 0;
             elmtype x;
             elmtype* less = new elmtype[s];
