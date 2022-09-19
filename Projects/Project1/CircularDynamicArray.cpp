@@ -108,87 +108,70 @@ class CircularDynamicArray{
                 arr[minIndex] = arr[i];
                 arr[i] = temp;
             }
-            elmtype x = arr[off + s/2];
+            elmtype x = arr[off + (s/2)];
             return x;
         }
 
-        elmtype selectWC(elmtype* arr, int l, int r, int k){
+        int selectWC(elmtype* arr, int l, int r, int k){
             if (k > 0 && k <= r - l + 1){
-                elmtype pivot;
                 int n = r-l+1; 
-                int medOfMed;
-                int i;
-                elmtype medianArr[(n+4)/5];
+                int i, medianArr[(n+4)/5];
                 for (i=0; i<n/5; i++){
-                    medianArr[i] = medianArray(arr, i*5, 5);
+                    medianArr[i] = medianArray(arr,i*5, 5);
                 }
                 if (i*5 < n){
                     medianArr[i] = medianArray(arr, i*5, n%5);
                     i++;
                 }
-
+                elmtype medOfMed;
                 if(i == 1){
-                    pivot = medianArr[i - 1];
+                    medOfMed = medianArr[i - 1];
                 } else {
                     selectWC(medianArr, 0, i-1, i/2);
                 }
-                elmtype x;
-                int l = 0, e = 0, g = 0;
-                elmtype* less = new elmtype[n];
-                elmtype* greater = new elmtype[n];
-                for(int i = 0; i < n; i++){
-                        x = arr[i];
-                    if (x<pivot){
-                            less[l++] = x;
-                    } else if (x == pivot){
-                        e++;
-                    } else{
-                        greater[g++] = x;
-                    }
+                int pos = partition(arr, l, r, medOfMed);
+
+                // If position is same as k
+                if (pos-l == k-1){
+                    return arr[pos];
                 }
-                if (k <= l){
-                    return selectWC(less, 0, l -1, k);
+                if (pos-l > k-1){
+                    return selectWC(arr, l, pos-1, k);
                 }
-                else if (k <= l + e){
-                    return pivot; 
-                } else {
-                    return selectWC(greater, 0, g -1, k - l - e);
-                }
+                return selectWC(arr, pos+1, r, k-pos+l-1);
             }
-            // delete[] medianArr;
-            // delete[] less;
-            // delete[] greater;
-            // return bad;
-        }
+            return 0;
+}
 
-        void swap(int *a, int *b)
-        {
-            int temp = *a;
-            *a = *b;
-            *b = temp;
-        }
+void swap(int *a, int *b)
+{
+	int temp = *a;
+	*a = *b;
+	*b = temp;
+}
 
 
-        int partition(elmtype* arr, int l, int r, int x)
-        {
-            int i;
-            for (i=l; i<r; i++)
-                if (arr[i] == x)
-                break;
-            swap(&arr[i], &arr[r]);
+int partition(elmtype* arr, int l, int r, elmtype x)
+{
+	int i;
+	for (i=l; i<r; i++)
+		if (arr[i] == x)
+		break;
+	swap(&arr[i], &arr[r]);
 
-            i = l;
-            for (int j = l; j <= r - 1; j++)
-            {
-                if (arr[j] <= x)
-                {
-                    swap(&arr[i], &arr[j]);
-                    i++;
-                }
-            }
-            swap(&arr[i], &arr[r]);
-            return i;
-        }
+	i = l;
+	for (int j = l; j <= r - 1; j++)
+	{
+		if (arr[j] <= x)
+		{
+			swap(&arr[i], &arr[j]);
+			i++;
+		}
+	}
+	swap(&arr[i], &arr[r]);
+	return i;
+}
+
 
         elmtype selectNormal(elmtype* arr, int k, int s, bool pass){
             int pivot = arr[s/2];
@@ -323,7 +306,6 @@ class CircularDynamicArray{
             size = 0;
             cap = 2;
             front = 0;
-            cout << "clear" << flush << endl;
         }
 
         elmtype QuickSelect(int k){
