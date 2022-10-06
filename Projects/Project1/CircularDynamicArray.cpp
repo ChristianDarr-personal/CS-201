@@ -1,5 +1,7 @@
 #include <iostream>
+#include <cstdlib>
 using namespace std;
+
 
 
 template <class elmtype>
@@ -33,8 +35,6 @@ class CircularDynamicArray{
             cap /=2;
             front = 0;
         }
-
-        
 
         void deepCopy(const CircularDynamicArray &c){
             this->size = c.size;
@@ -112,27 +112,28 @@ class CircularDynamicArray{
             return x;
         }
 
-        int selectWC(elmtype* arr, int l, int r, int k){
+        elmtype selectWC(elmtype arr[], int l, int r, int k){
             if (k > 0 && k <= r - l + 1){
-                int n = r-l+1; 
-                int i, medianArr[(n+4)/5];
-                for (i=0; i<n/5; i++){
+                int n = r - l + 1; 
+                int i;
+                elmtype medianArr[(n+4)/5];
+                for (i = 0; i < n/5; i++){
                     medianArr[i] = medianArray(arr,i*5, 5);
                 }
                 if (i*5 < n){
                     medianArr[i] = medianArray(arr, i*5, n%5);
                     i++;
                 }
-                elmtype medOfMed;
+                elmtype pivot;
                 if(i == 1){
-                    medOfMed = medianArr[i - 1];
+                    pivot = medianArr[i - 1];
                 } else {
                     selectWC(medianArr, 0, i-1, i/2);
                 }
-                int pos = partition(arr, l, r, medOfMed);
-
-                // If position is same as k
-                if (pos-l == k-1){
+                
+                int pos;
+                pos = partition(arr, l, r, pivot);
+                if (pos-l == k - 1){
                     return arr[pos];
                 }
                 if (pos-l > k-1){
@@ -141,40 +142,48 @@ class CircularDynamicArray{
                 return selectWC(arr, pos+1, r, k-pos+l-1);
             }
             return 0;
-}
+        }
 
-void swap(int *a, int *b)
-{
-	int temp = *a;
-	*a = *b;
-	*b = temp;
-}
+        void swap(elmtype *a, elmtype *b)
+        {
+            elmtype temp = *a;
+            *a = *b;
+            *b = temp;
+        }
 
 
-int partition(elmtype* arr, int l, int r, elmtype x)
-{
-	int i;
-	for (i=l; i<r; i++)
-		if (arr[i] == x)
-		break;
-	swap(&arr[i], &arr[r]);
-
-	i = l;
-	for (int j = l; j <= r - 1; j++)
-	{
-		if (arr[j] <= x)
-		{
-			swap(&arr[i], &arr[j]);
-			i++;
-		}
-	}
-	swap(&arr[i], &arr[r]);
-	return i;
-}
-
+        int partition(elmtype arr[], int l, int r, elmtype x)
+        {
+            elmtype temp;
+            int i;
+            for (i=l; i<r; i++){
+                if (arr[i] == x){
+                    break;
+                }
+            }
+            temp = arr[r];
+            arr[r] = arr[i];
+            arr[i] = temp;
+            i = l;
+            for (int j = l; j <= r - 1; j++)
+            {
+                if (arr[j] <= x)
+                {
+                    temp = arr[j];
+                    arr[j] = arr[i];
+                    arr[i] = temp;
+                    i++;
+                }
+            }
+            temp = arr[r];
+            arr[r] = arr[i];
+            arr[i] = temp;
+           
+            return i;
+        }       
 
         elmtype selectNormal(elmtype* arr, int k, int s, bool pass){
-            int pivot = arr[s/2];
+            elmtype pivot = arr[rand() % s];
             int l = 0, e = 0, g = 0;
             elmtype x;
             elmtype* less = new elmtype[s];
@@ -313,7 +322,7 @@ int partition(elmtype* arr, int l, int r, elmtype x)
         }
 
         elmtype WCSelect(int k){
-            elmtype* temp = new elmtype[size];
+            elmtype temp[size];
             for(int i = 0; i < size; i++){
                 temp[i] = array[(front + i)%cap];
             }

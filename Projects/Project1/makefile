@@ -1,2 +1,3 @@
-all: 
-	g++ -std=c++14 Phase1Main.cpp -o Phase1
+all:
+	g++ Phase1Main.cpp CircularDynamicArray.cpp -o Phase1
+	
