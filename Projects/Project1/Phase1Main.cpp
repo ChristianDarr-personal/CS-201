@@ -96,7 +96,7 @@ void test1(ostream &fp){
 	CircularDynamicArray<short int> testGeneric2(10);
 	CircularDynamicArray<double> testGeneric3(10);
 	fp << "Passed Generics Test" << endl;
-	//fp.close();
+	// fp.close();
 	if(printWrapper)fp << "-----------------Finished Test----------------------" << endl;
 }
 
