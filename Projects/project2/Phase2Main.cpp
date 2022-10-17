@@ -3,10 +3,9 @@ using namespace std;
 #include "RBTree.cpp"
 
 int main(){
-	string K[10] = {"A","B","C","D","E","F","G","H","I","K"};
+	int K[10] = {1,2,3,4,5,6,7,8,9,10};
 	int V[10] = {10,9,8,7,6,5,4,3,2,1};
-	
-	RBTree<string,int> T1, T2(K,V,10);
+	RBTree<int,int> T2(K,V,10);
 	
 	// for(int i=0; i<10; i++) T1.insert(K[i],V[i]);
 	// // T1 and T2 should be identical trees

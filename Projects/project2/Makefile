@@ -1,2 +1,2 @@
 all: 
-	g++ Phase2Main.cpp  -o Phase2
+	g++ Phase2Main.cpp -o Phase2
