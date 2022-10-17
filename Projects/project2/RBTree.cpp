@@ -14,10 +14,12 @@ class RBTree{
             node *parent;
             node *left;
             node *right;
+            int size;
         };
 
         node *head;
         node *nullNode;
+        int treeSize;
 
         void fixup(node *n){
             node *y;
@@ -57,6 +59,129 @@ class RBTree{
             head->color = false;
         }
 
+        void deleteFixup(node *n){
+            node *w;
+            while(n != head && n->color == false){
+                if(n == n->parent->left){
+                    w = n->parent->right;
+                    if(w->color){
+                        w->color = false;
+                        n->parent->color = true;
+                        leftRotate(n->parent);
+                        w = n->parent->right;
+                    }
+                    if(w->left->color == false && w->right->color == false){
+                        w->color = true;
+                        n = n->parent;
+                    } else if(w->right->color == false){
+                        w->left->color = false;
+                        w->color = true;
+                        rightRotate(w);
+                        w = n->parent->right;
+                    } else{
+                        w->color = n->parent->color;
+                        n->parent->color = false;
+                        w->right->color = false;
+                        leftRotate(n->parent);
+                        n = head;
+                    }
+                } else{
+                    w = n->parent->left;
+                    if(w->color){
+                        w->color = false;
+                        n->parent->color = true;
+                        rightRotate(n->parent);
+                        w = n->parent->left;
+                    }
+                    if(w->right->color == false && w->left->color == false){
+                        w->color = true;
+                        n = n->parent;
+                    } else if(w->left->color == false){
+                        w->right->color = false;
+                        w->color = true;
+                        leftRotate(w);
+                        w = n->parent->left;
+                    } else{
+                        w->color = n->parent->color;
+                        n->parent->color = false;
+                        w->left->color = false;
+                        rightRotate(n->parent);
+                        n = head;
+                    }
+                }
+            }
+            n->color = false;
+        }
+
+        node* treeMin(node* n){
+            while(n->left != nullNode){
+                n = n->left;
+            }
+            return n;
+        }
+
+        node* treeMax(node* n){
+            while(n->right != nullNode){
+                n = n->right;
+            }
+            return n;
+        }
+
+        void deleteNode(node* n){
+            node *y, *x;
+            y = n;
+            bool yOrigColor = y->color;
+            if(n->left == nullNode){
+                x = n->right;
+                transplant(n, n->right);
+            } else if(n->right == nullNode){
+                x = n->left;
+                transplant(n, n->left);
+            } else {
+                y = treeMax(n->left);
+                yOrigColor = y->color;
+                x = y->left;
+                if(y->parent == n){
+                    n->parent = y;
+                } else {
+                    transplant(y, y->left);
+                    y->left = n->left;
+                    y->left->parent = y;
+                }
+                transplant(n, y);
+                y->right = n->right;
+                y->left->parent = y;
+                y->color = n->color;
+            }
+            if(yOrigColor == false){
+                deleteFixup(x);
+            }
+        }
+
+        void transplant(node *u, node *v){
+            if(u->parent == nullNode){
+                head = v;
+            } else if(u == u->parent->left){
+                u->parent->left = v;
+            } else{
+                u->parent->right = v;
+            }
+            v->parent = u->parent;
+        }
+
+        node* searchNode(keytype k){
+            node *n = head;
+            while(n->key != k && n != nullNode){
+                if(n->key > k){
+                    n = n->left;
+                }else{
+                    n = n->right;
+                }
+            }
+            cout << "searchKey" << n->key << endl;
+            return n;
+        }
+
         void leftRotate(node *n){
             node *y = n->right;
             n->right = y->left;
@@ -73,6 +198,8 @@ class RBTree{
             }
             y->left = n;
             n->parent = y;
+            y->size = n->size;
+            n->size = n->left->size + n->right->size + 1;
         }
 
         void rightRotate(node *n){
@@ -91,6 +218,8 @@ class RBTree{
             }
             y->right = n;
             n->parent = y;
+            y->size = n->size;
+            n->size = n->left->size + n->right->size + 1;
         }
 
         void printInorder(node *n){
@@ -122,7 +251,6 @@ class RBTree{
             cout << n->key << " "; 
             printPreorder(n->left);
             printPreorder(n->right);
-            cout << endl;    
         }
 
         void printPostorder(node *n){
@@ -135,15 +263,21 @@ class RBTree{
             cout << n->key << " "; 
         }
 
-    public:
-        
-        
-        RBTree(){}
+    public: 
+        RBTree(){
+            nullNode = new node();
+            nullNode->color = false;
+            nullNode->parent = nullNode;
+            nullNode->left = nullNode;
+            nullNode->right = nullNode;
+
+            head = nullNode;
+
+            treeSize = 0;
+        }
 
         RBTree(keytype k[], valuetype v[], int s){
             nullNode = new node();
-            nullNode->key = (keytype) 0;
-            nullNode->value = (valuetype) 0;
             nullNode->color = false;
             nullNode->parent = nullNode;
             nullNode->left = nullNode;
@@ -156,34 +290,30 @@ class RBTree{
             head->parent = nullNode;
             head->left = nullNode;
             head->right = nullNode;
-
-            for(int i = 1; i < s; i++){
+            
+            treeSize = s;
+            for(int i = 1; i < treeSize; i++){
                 insert(k[i], v[i]);
-                postorder();
             }
-            int a = 10;
         }
 
         // Traditional search-> Should return a pointer to the valuetype stored with the key-> If the key is not 
         // stored in the tree then the function should return NULL->
         valuetype* search(keytype k){
-            node *searchNode = head;
-            while(searchNode->key != k){
-                if(searchNode->key < k){
-                    searchNode = searchNode->left;
-                } else{
-                    searchNode = searchNode->right;
-                }
-                if(searchNode->key == k){
-                    return *searchNode->value;
+            node *n = head;
+            while(n->key != k && n != nullNode){
+                if(n->key > k){
+                    n = n->left;
+                }else{
+                    n = n->right;
                 }
             }
-            return NULL;
+            return &n->value;
         }
 
         //Inserts the node with key k and value v into the tree->
         void insert(keytype k, valuetype v){
-                  node *n = new node();
+            node *n = new node();
             n->key = k;
             n->value = v;
             n->color = true;
@@ -217,7 +347,13 @@ class RBTree{
         // Removes the node with key k and returns 1-> If key k is not found then remove should return 0-> If 
         // the node with key k is not a leaf then replace k by its predecessor->
         int remove(keytype k){
-            return 0;
+            node* n = searchNode(k);
+            if(n == nullNode){
+                return 0;
+            } else {
+                deleteNode(n);
+                return 1;
+            }
         }
 
         // Returns the rank of the key k in the tree-> Returns 
@@ -234,18 +370,38 @@ class RBTree{
         // Returns a pointer to the key after k in the tree-> 
         // Should return NULL if no successor exists
         keytype* successor(keytype k){
-
+            node* n = searchNode(k);
+            node* y;
+            if(n->right != nullNode){
+                return treeMin(n->right);
+            }
+            y = n->parent;
+            while(y != nullNode && n == y->right){
+                n = y;
+                y = y->parent;
+            }
+            return &y->key; //must return Null
         }
 
         // Returns a pointer to the key before k in the tree-> 
         // Should return NULL if no predecessor exists
         keytype* predeccessor(keytype k){
-            
+            node* n = searchNode(k);
+            node* y;
+            if(n->left != nullNode){
+                return treeMax(n->left);
+            }
+            y = n->parent;
+            while(y != nullNode && n == y->left){
+                n = y;
+                y = y->parent;
+            }
+            return &y->key; //must return NULL
         }
 
         // Returns the number of node in the tree
         int size(){
-            return size;
+            return treeSize;
         }
 
         // Prints the keys of the tree in a preorder traversal->
@@ -261,6 +417,7 @@ class RBTree{
             printInorder(head);
             cout << endl;
         }
+
         // Prints the keys of the tree in a postorder 
         // traversal-> The list of keys are separated by a single space and terminated with a newline->
         void postorder(){
