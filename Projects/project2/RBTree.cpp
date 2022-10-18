@@ -409,7 +409,8 @@ class RBTree{
             node* n = searchNode(k);
             node* y;
             if(n->right != nullNode){
-                return treeMin(n->right);
+                y = treeMin(n->right);
+                return &y->key;
             }
             y = n->parent;
             while(y != nullNode && n == y->right){
@@ -421,11 +422,12 @@ class RBTree{
 
         // Returns a pointer to the key before k in the tree-> 
         // Should return NULL if no predecessor exists
-        keytype* predeccessor(keytype k){
+        keytype* predecessor(keytype k){
             node* n = searchNode(k);
             node* y;
             if(n->left != nullNode){
-                return treeMax(n->left);
+                y = treeMax(n->left);
+                return &y->key;
             }
             y = n->parent;
             while(y != nullNode && n == y->left){
