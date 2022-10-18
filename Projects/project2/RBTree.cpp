@@ -128,7 +128,8 @@ class RBTree{
         }
 
         void deleteNode(node* n){
-            node *y, *x;
+            node *y, *x, *orig;
+            orig = n;
             y = n;
             bool yOrigColor = y->color;
             if(n->left == nullNode){
@@ -142,7 +143,7 @@ class RBTree{
                 yOrigColor = y->color;
                 x = y->left;
                 if(y->parent == n){
-                    n->parent = y;
+                    x->parent = y;
                 } else {
                     transplant(y, y->left);
                     y->left = n->left;
@@ -153,9 +154,15 @@ class RBTree{
                 y->left->parent = y;
                 y->color = n->color;
             }
+            while(orig != nullNode){
+                orig->size = orig->size -1;
+                orig = orig->parent;
+            }
+            y->size = y->left->size + y->right->size +1;
             if(yOrigColor == false){
                 deleteFixup(x);
             }
+            int z = 0;
         }
 
         void transplant(node *u, node *v){
@@ -178,7 +185,6 @@ class RBTree{
                     n = n->right;
                 }
             }
-            cout << "searchKey" << n->key << endl;
             return n;
         }
 
@@ -263,6 +269,17 @@ class RBTree{
             cout << n->key << " "; 
         }
 
+        node* selectRecurse(node* n, int i){
+            int r = n->left->size + 1;
+            if(i == r){
+                return n;
+            } else if(i < r){
+                return selectRecurse(n->left, i);
+            } else {
+                return selectRecurse(n->right, i - r);
+            }
+        }
+
     public: 
         RBTree(){
             nullNode = new node();
@@ -270,6 +287,7 @@ class RBTree{
             nullNode->parent = nullNode;
             nullNode->left = nullNode;
             nullNode->right = nullNode;
+            nullNode->size = 0;
 
             head = nullNode;
 
@@ -282,6 +300,7 @@ class RBTree{
             nullNode->parent = nullNode;
             nullNode->left = nullNode;
             nullNode->right = nullNode;
+            nullNode->size = 0;
 
             head = new node();
             head->key = k[0];
@@ -290,9 +309,10 @@ class RBTree{
             head->parent = nullNode;
             head->left = nullNode;
             head->right = nullNode;
+            head->size = 1;
             
-            treeSize = s;
-            for(int i = 1; i < treeSize; i++){
+            treeSize = 1;
+            for(int i = 1; i < s; i++){
                 insert(k[i], v[i]);
             }
         }
@@ -320,15 +340,18 @@ class RBTree{
             n->parent = nullNode;
             n->left = nullNode;
             n->right = nullNode;
+            n->size = 1;
             node* y = nullNode;
             node* x = head;
             while(x != nullNode){
+                x->size++;
                 y = x;
                 if(n->key < x->key){
                     x = x->left;
                 } else {
                     x = x->right;
                 }
+                
             }
             n->parent = y;
             if(y == nullNode){
@@ -342,29 +365,42 @@ class RBTree{
             n->right = nullNode;
             n->color = true;
             fixup(n);
+            treeSize++;
         }
 
         // Removes the node with key k and returns 1-> If key k is not found then remove should return 0-> If 
         // the node with key k is not a leaf then replace k by its predecessor->
         int remove(keytype k){
-            node* n = searchNode(k);
+            node *n = searchNode(k);
             if(n == nullNode){
                 return 0;
             } else {
                 deleteNode(n);
                 return 1;
             }
+            treeSize--;
         }
 
         // Returns the rank of the key k in the tree-> Returns 
         // 0 if the key k is not found-> The smallest item in the tree is rank 1
         int rank(keytype k){
-            return 0;
+            node* n = searchNode(k);
+            int r = n->left->size + 1;
+            node* y = n;
+            while(y != head){
+                if(y == y->parent->right){
+                    r = r + y->parent->left->size + 1;
+                }
+                y = y->parent;
+            }
+            return r;
         }
 
         // Order Statistics-> Returns the key of the node at position pos in the tree-> Calling with pos = 1 
         // should return the smallest key in the tree, pos = n should return the largest->
         keytype select(int pos){
+            node *n = selectRecurse(head, pos);
+            return n->key;
         }
 
         // Returns a pointer to the key after k in the tree-> 

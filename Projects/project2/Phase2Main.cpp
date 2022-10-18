@@ -17,9 +17,13 @@ int main(){
 	// cout << T1.rank("C") << endl;
 	// //Should output 3
 	
-	// cout << T1.select(3) << endl;
+	// cout << T2.select(4) << endl;
 	// //Should output C 
-	
+	cout << "rank: ";
+	for(int i = 0; i < T2.size(); i++){
+		cout << T2.rank(K[i]) << " ";
+	}
+	cout << endl;
 	// T2.preorder();
 	// //Should output "D B A C F E H G I K\n"
 	// //as a string. There should be a single 
@@ -29,7 +33,16 @@ int main(){
 	// T2.inorder();
 	// //Should output	A B C D E F G H I K\n
 	
-	cout << T2.remove("D") << endl;
+	cout << T2.remove("A") << endl;
+	cout << "rank: ";
+	for(int i = 0; i < T2.size(); i++){
+		if(i == 0){
+			continue;
+		}
+		cout << T2.rank(K[i]) << " ";
+	}
+	cout << endl;
+	cout << T2.select(4) << endl;
 	//Should output 1
 	
 	T2.preorder();
