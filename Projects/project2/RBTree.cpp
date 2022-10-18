@@ -154,11 +154,14 @@ class RBTree{
                 y->left->parent = y;
                 y->color = n->color;
             }
-            while(orig != nullNode){
-                orig->size = orig->size -1;
-                orig = orig->parent;
-            }
-            y->size = y->left->size + y->right->size +1;
+
+            // while(orig != nullNode){
+            //     orig->size = orig->size -1;
+            //     orig = orig->parent;
+            // }
+            // y->size = y->left->size + y->right->size +1;
+
+
             if(yOrigColor == false){
                 deleteFixup(x);
             }
@@ -204,8 +207,7 @@ class RBTree{
             }
             y->left = n;
             n->parent = y;
-            y->size = n->size;
-            n->size = n->left->size + n->right->size + 1;
+            y->size = y-> size + n->size + 1;
         }
 
         void rightRotate(node *n){
@@ -224,8 +226,7 @@ class RBTree{
             }
             y->right = n;
             n->parent = y;
-            y->size = n->size;
-            n->size = n->left->size + n->right->size + 1;
+            n->size = n->size - y->size - 1;
         }
 
         void printInorder(node *n){
@@ -270,7 +271,7 @@ class RBTree{
         }
 
         node* selectRecurse(node* n, int i){
-            int r = n->left->size + 1;
+            int r = n->size + 1;
             if(i == r){
                 return n;
             } else if(i < r){
@@ -309,7 +310,7 @@ class RBTree{
             head->parent = nullNode;
             head->left = nullNode;
             head->right = nullNode;
-            head->size = 1;
+            head->size = 0;
             
             treeSize = 1;
             for(int i = 1; i < s; i++){
@@ -340,18 +341,17 @@ class RBTree{
             n->parent = nullNode;
             n->left = nullNode;
             n->right = nullNode;
-            n->size = 1;
+            n->size = 0;
             node* y = nullNode;
             node* x = head;
             while(x != nullNode){
                 y = x;
                 if(n->key < x->key){
-                     
+                    x->size++;
                     x = x->left;
                 } else {
                     x = x->right;
                 }
-                
             }
             n->parent = y;
             if(y == nullNode){
@@ -371,7 +371,16 @@ class RBTree{
         // Removes the node with key k and returns 1-> If key k is not found then remove should return 0-> If 
         // the node with key k is not a leaf then replace k by its predecessor->
         int remove(keytype k){
-            node *n = searchNode(k);
+            node *n = head;
+            while(n->key != k && n != nullNode){
+                if(n->key > k){
+                    n->size--;
+                    n = n->left;
+                }else{
+                    n = n->right;
+                }
+            }
+
             if(n == nullNode){
                 return 0;
             } else {
