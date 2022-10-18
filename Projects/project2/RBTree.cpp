@@ -344,9 +344,9 @@ class RBTree{
             node* y = nullNode;
             node* x = head;
             while(x != nullNode){
-                x->size++;
                 y = x;
                 if(n->key < x->key){
+                     
                     x = x->left;
                 } else {
                     x = x->right;
