@@ -394,11 +394,11 @@ class RBTree{
         // 0 if the key k is not found-> The smallest item in the tree is rank 1
         int rank(keytype k){
             node* n = searchNode(k);
-            int r = n->left->size + 1;
+            int r = n->size + 1;
             node* y = n;
             while(y != head){
                 if(y == y->parent->right){
-                    r = r + y->parent->left->size + 1;
+                    r = r + y->parent->size + 1;
                 }
                 y = y->parent;
             }
