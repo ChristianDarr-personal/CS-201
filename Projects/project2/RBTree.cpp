@@ -189,6 +189,10 @@ class RBTree{
                     max = max->right;
                 }
                 y = max;
+                
+                y->size = n->size - 1;
+
+
                 yOrigColor = y->color;
                 // yOrigSize = y->size;
                 x = y->left;
@@ -197,7 +201,7 @@ class RBTree{
                 } else {
                     transplant(y, y->left);
                     y->left = n->left;
-                    y->size = n->size;
+                    // y->size = n->size;
                     y->left->parent = y;
                 }
                 transplant(n, y);
@@ -317,11 +321,32 @@ class RBTree{
         node* selectRecurse(node* n, int i){
             int r = n->size + 1;
             if(i == r){
+                // cout << n->key << " ";
                 return n;
             } else if(i < r){
+                // cout << n->key  << " ";
                 return selectRecurse(n->left, i);
+                
             } else {
+                // cout << n->key << " ";
                 return selectRecurse(n->right, i - r);
+
+            }
+        }
+
+        node* rankRecurse(node* n, int i){
+            int r = n->size + 1;
+            if(i < r){
+                cout << n->key << " ";
+                return rankRecurse(n->left, i);
+                
+            } else if(i == r){
+                cout << n->key  << " ";
+                return n;
+            } else {
+                cout << n->key << " ";
+                return rankRecurse(n->right, i - r);
+
             }
         }
 
@@ -364,7 +389,9 @@ class RBTree{
 
         ~RBTree(){
             deleteTraversal(head);
+            int x = 0;
             delete nullNode;
+            x= 3;
         }
 
         void deleteTraversal(node* n){
@@ -372,9 +399,8 @@ class RBTree{
                 return;
             }
             deleteTraversal(n->left);
-            n->left = nullNode;
             deleteTraversal(n->right);
-            n->right = nullNode;
+            cout << n->key << " " << flush;
             delete n;
         }
 
@@ -463,7 +489,6 @@ class RBTree{
                 deleteNode(n);
                 return 1;
             }
-            
         }
 
         // Returns the rank of the key k in the tree-> Returns 
@@ -567,7 +592,7 @@ class RBTree{
         // Prints the smallest k keys in the tree-> The list of 
         // keys are separated by a single space and terminated with a newline
         void printk(int k){
-            printInorderk(treeMin(head), k);
+            rankRecurse(head, k);
             cout << endl;
         }
 
