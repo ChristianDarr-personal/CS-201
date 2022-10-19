@@ -31,10 +31,11 @@ class RBTree{
                         y->color = false;
                         n->parent->parent->color = true;
                         n = n->parent->parent;
-                    } else if(n == n->parent->right){
-                        n = n->parent;
-                        leftRotate(n);
-                    } else{
+                    } else {
+                        if(n == n->parent->right){
+                            n = n->parent;
+                            leftRotate(n);
+                        }
                         n->parent->color = false;
                         n->parent->parent->color = true;
                         rightRotate(n->parent->parent);
@@ -46,10 +47,11 @@ class RBTree{
                         y->color = false;
                         n->parent->parent->color = true;
                         n = n->parent->parent;
-                    } else if(n == n->parent->left){
-                        n = n->parent;
-                        rightRotate(n);
-                    } else{
+                    } else {
+                        if(n == n->parent->left){
+                            n = n->parent;
+                            rightRotate(n);
+                        }
                         n->parent->color = false;
                         n->parent->parent->color = true;
                         leftRotate(n->parent->parent);
@@ -73,12 +75,13 @@ class RBTree{
                     if(w->left->color == false && w->right->color == false){
                         w->color = true;
                         n = n->parent;
-                    } else if(w->right->color == false){
-                        w->left->color = false;
-                        w->color = true;
-                        rightRotate(w);
-                        w = n->parent->right;
-                    } else{
+                    } else {
+                        if(w->right->color == false){
+                            w->left->color = false;
+                            w->color = true;
+                            rightRotate(w);
+                            w = n->parent->right;
+                        }
                         w->color = n->parent->color;
                         n->parent->color = false;
                         w->right->color = false;
@@ -96,12 +99,13 @@ class RBTree{
                     if(w->right->color == false && w->left->color == false){
                         w->color = true;
                         n = n->parent;
-                    } else if(w->left->color == false){
-                        w->right->color = false;
-                        w->color = true;
-                        leftRotate(w);
-                        w = n->parent->left;
-                    } else{
+                    } else {
+                        if(w->left->color == false){
+                            w->right->color = false;
+                            w->color = true;
+                            leftRotate(w);
+                            w = n->parent->left;
+                        }
                         w->color = n->parent->color;
                         n->parent->color = false;
                         w->left->color = false;
