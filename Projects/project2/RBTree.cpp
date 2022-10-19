@@ -15,11 +15,50 @@ class RBTree{
             node *left;
             node *right;
             int size;
+            // ~node(){
+            //     delete parent;
+            //     delete left;
+            //     delete right;
+            // }
         };
 
         node *head;
         node *nullNode;
         int treeSize;
+        
+        void deepCopy(const RBTree &c){
+            
+            this->nullNode = new node();
+            this->nullNode->color = c.nullNode->color;
+            this->nullNode->key = c.nullNode->key;
+            this->nullNode->value = c.nullNode->value;
+            this->nullNode->size = c.nullNode->size;
+            this->nullNode->left = this->nullNode;
+            this->nullNode->right = this->nullNode;
+            this->nullNode->parent = this->nullNode;
+
+            this->treeSize = c.treeSize;
+            this->head = new node();
+            this->head = nodeCopy(c, c.head);
+            this->head->parent = this->nullNode;
+        }
+
+        node* nodeCopy(const RBTree &c, node* n){
+            if(n == c.nullNode){
+                return this->nullNode;
+            }
+            node *p = new node();
+            p->color = n->color;
+            p->key = n->key;
+            p->size = n->size;
+            p->value = n->value;
+
+            p->left = nodeCopy(c, n->left);
+            p->left->parent = p;
+            p->right = nodeCopy(c, n->right);
+            p->right->parent = p;
+            return p;
+        }
 
         void fixup(node *n){
             node *y;
@@ -93,7 +132,7 @@ class RBTree{
                     if(w->color){
                         w->color = false;
                         n->parent->color = true;
-                        rightRotate(n->parent);
+                        rightRotate(w);
                         w = n->parent->left;
                     }
                     if(w->right->color == false && w->left->color == false){
@@ -109,7 +148,7 @@ class RBTree{
                         w->color = n->parent->color;
                         n->parent->color = false;
                         w->left->color = false;
-                        rightRotate(n->parent);
+                        rightRotate(w);
                         n = head;
                     }
                 }
@@ -132,7 +171,7 @@ class RBTree{
         }
 
         void deleteNode(node* n){
-            node *y, *x, *orig;
+            node *y, *x, *orig, *origY;
             orig = n;
             y = n;
             bool yOrigColor = y->color;
@@ -143,7 +182,12 @@ class RBTree{
                 x = n->left;
                 transplant(n, n->left);
             } else {
-                y = treeMax(n->left);
+                node* max = y->left;
+                while(max->right != nullNode){
+                    // max->size--;
+                    max = max->right;
+                }
+                y = max;
                 yOrigColor = y->color;
                 x = y->left;
                 if(y->parent == n){
@@ -158,18 +202,9 @@ class RBTree{
                 y->left->parent = y;
                 y->color = n->color;
             }
-
-            // while(orig != nullNode){
-            //     orig->size = orig->size -1;
-            //     orig = orig->parent;
-            // }
-            // y->size = y->left->size + y->right->size +1;
-
-
             if(yOrigColor == false){
                 deleteFixup(x);
             }
-            int z = 0;
         }
 
         void transplant(node *u, node *v){
@@ -211,10 +246,12 @@ class RBTree{
             }
             y->left = n;
             n->parent = y;
-            y->size = y-> size + n->size + 1;
+            y->size = y->size + n->size + 1;
         }
 
         void rightRotate(node *n){
+            cout << "rightRotate" << endl;
+            // printInorder(head);
             node *y = n->left;
             n->left = y->right;
             if(y->right != nullNode){
@@ -231,6 +268,7 @@ class RBTree{
             y->right = n;
             n->parent = y;
             n->size = n->size - y->size - 1;
+            // printInorder(head);
         }
 
         void printInorder(node *n){
@@ -238,7 +276,7 @@ class RBTree{
                 return;
             }
             printInorder(n->left);
-            cout << n->key << " ";   
+            cout << n->key << " " << flush;   
             printInorder(n->right);
         }
 
@@ -247,12 +285,12 @@ class RBTree{
                 return;
             }
             
-            printInorder(n->left);
-            cout << n->key << " ";
-            if(k = 1 ){
-                return;
-            }   
-            printInorder(n->right);
+            printInorderk(n->left, k - 1);
+            if(k < 3){
+                cout << n->key << " ";
+            }
+            
+            printInorderk(n->right, k -1);
         }
 
         void printPreorder(node *n){
@@ -322,6 +360,29 @@ class RBTree{
             }
         }
 
+        ~RBTree(){
+            deleteTraversal(head);
+            delete nullNode;
+        }
+
+        void deleteTraversal(node* n){
+            deleteTraversal(n->left);
+            deleteTraversal(n->right);
+            delete n;
+        }
+
+        RBTree(const RBTree& c){
+            deepCopy(c);
+        }
+
+        RBTree& operator=(const RBTree& c){
+            if(this != &c){
+                delete this;
+                deepCopy(c);
+            }
+            return *this;
+        }
+
         // Traditional search-> Should return a pointer to the valuetype stored with the key-> If the key is not 
         // stored in the tree then the function should return NULL->
         valuetype* search(keytype k){
@@ -375,6 +436,7 @@ class RBTree{
         // Removes the node with key k and returns 1-> If key k is not found then remove should return 0-> If 
         // the node with key k is not a leaf then replace k by its predecessor->
         int remove(keytype k){
+            treeSize--;
             node *n = head;
             while(n->key != k && n != nullNode){
                 if(n->key > k){
@@ -391,13 +453,16 @@ class RBTree{
                 deleteNode(n);
                 return 1;
             }
-            treeSize--;
+            
         }
 
         // Returns the rank of the key k in the tree-> Returns 
         // 0 if the key k is not found-> The smallest item in the tree is rank 1
         int rank(keytype k){
             node* n = searchNode(k);
+            if(n == nullNode){
+                return 0;
+            }
             int r = n->size + 1;
             node* y = n;
             while(y != head){
@@ -480,7 +545,7 @@ class RBTree{
         // Prints the smallest k keys in the tree-> The list of 
         // keys are separated by a single space and terminated with a newline
         void printk(int k){
-            printInorderk(head, k);
+            printInorderk(treeMin(head), k);
             cout << endl;
         }
 
