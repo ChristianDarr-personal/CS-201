@@ -255,8 +255,6 @@ class RBTree{
         }
 
         void rightRotate(node *n){
-            cout << "rightRotate" << endl;
-            // printInorder(head);
             node *y = n->left;
             n->left = y->right;
             if(y->right != nullNode){
@@ -273,7 +271,6 @@ class RBTree{
             y->right = n;
             n->parent = y;
             n->size = n->size - y->size - 1;
-            // printInorder(head);
         }
 
         void printInorder(node *n){
@@ -399,6 +396,9 @@ class RBTree{
                     n = n->right;
                 }
             }
+            if(n == nullNode){
+                return NULL;
+            }
             return &n->value;
         }
 
@@ -490,6 +490,9 @@ class RBTree{
         // Should return NULL if no successor exists
         keytype* successor(keytype k){
             node* n = searchNode(k);
+            if(n == nullNode){
+                return NULL;
+            }
             node* y;
             if(n->right != nullNode){
                 y = treeMin(n->right);
@@ -510,6 +513,9 @@ class RBTree{
         // Should return NULL if no predecessor exists
         keytype* predecessor(keytype k){
             node* n = searchNode(k);
+            if(n == nullNode){
+                return NULL;
+            }
             node* y;
             if(n->left != nullNode){
                 y = treeMax(n->left);
