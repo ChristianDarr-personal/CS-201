@@ -293,7 +293,7 @@ class RBTree{
             
             printInorderk(n->left, k - 1);
             if(k < 3){
-                cout << n->key << " ";
+                // cout << n->key << " ";
             }
             
             printInorderk(n->right, k -1);
@@ -337,14 +337,14 @@ class RBTree{
         node* rankRecurse(node* n, int i){
             int r = n->size + 1;
             if(i < r){
-                cout << n->key << " ";
+                // cout << n->key << " ";
                 return rankRecurse(n->left, i);
                 
             } else if(i == r){
-                cout << n->key  << " ";
+                // cout << n->key  << " ";
                 return n;
             } else {
-                cout << n->key << " ";
+                // cout << n->key << " ";
                 return rankRecurse(n->right, i - r);
 
             }
@@ -400,7 +400,7 @@ class RBTree{
             }
             deleteTraversal(n->left);
             deleteTraversal(n->right);
-            cout << n->key << " " << flush;
+            // cout << n->key << " " << flush;
             delete n;
         }
 
@@ -410,7 +410,7 @@ class RBTree{
 
         RBTree& operator=(const RBTree& c){
             if(this != &c){
-                delete this;
+                // delete this;
                 deepCopy(c);
             }
             return *this;
