@@ -172,9 +172,10 @@ class RBTree{
 
         void deleteNode(node* n){
             node *y, *x, *orig, *origY;
-            orig = n;
+            // orig = n;
             y = n;
             bool yOrigColor = y->color;
+            // int yOrigSize = y->size;
             if(n->left == nullNode){
                 x = n->right;
                 transplant(n, n->right);
@@ -189,19 +190,23 @@ class RBTree{
                 }
                 y = max;
                 yOrigColor = y->color;
+                // yOrigSize = y->size;
                 x = y->left;
                 if(y->parent == n){
                     x->parent = y;
                 } else {
                     transplant(y, y->left);
                     y->left = n->left;
+                    y->size = n->size;
                     y->left->parent = y;
                 }
                 transplant(n, y);
-                y->right = n->right;
-                y->left->parent = y;
+                // y->size = y->size - max->size + 2;
+                y->right = n->right; //when y is moved up, it needs to take on deleted nodes size attribute
+                y->right->parent = y;
                 y->color = n->color;
             }
+            // y->size = yOrigSize;
             if(yOrigColor == false){
                 deleteFixup(x);
             }
@@ -495,6 +500,9 @@ class RBTree{
                 n = y;
                 y = y->parent;
             }
+            if(y == nullNode){
+                return NULL;
+            }
             return &y->key; //must return Null
         }
 
@@ -511,6 +519,9 @@ class RBTree{
             while(y != nullNode && n == y->left){
                 n = y;
                 y = y->parent;
+            }
+            if(y == nullNode){
+                return NULL;
             }
             return &y->key; //must return NULL
         }
