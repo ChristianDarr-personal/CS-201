@@ -368,8 +368,13 @@ class RBTree{
         }
 
         void deleteTraversal(node* n){
+            if(n == nullNode){
+                return;
+            }
             deleteTraversal(n->left);
+            n->left = nullNode;
             deleteTraversal(n->right);
+            n->right = nullNode;
             delete n;
         }
 
