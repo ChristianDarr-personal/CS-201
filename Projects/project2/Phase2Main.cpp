@@ -48,8 +48,8 @@ int main(){
 	// T2.inorder();
 	// //Should output	A B C E F G H I K\n
 	
-	// T2.printk(3);
-	// //Should output	A B C\n
+	T2.printk(3);
+	//Should output	A B C\n
 	
 	// cout << T2.remove("J") << endl;
 	// //Should output 0

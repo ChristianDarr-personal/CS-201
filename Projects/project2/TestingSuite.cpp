@@ -309,8 +309,8 @@ void test5() {
 
     cout << "Testing copy assignment operator" << endl;
     RBTree<int, int> G;
-    for (int i = 0; i < 500; i++)
-        G.insert(500 - i, i);
+    for (int i = 0; i < 500000; i++)
+        G.insert(500000 - i, i);
     cout << "Created tree G and inserted values into it" << endl;
     cout << "Assigning G to T" << endl;
     G = T;

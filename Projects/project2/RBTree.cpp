@@ -25,6 +25,7 @@ class RBTree{
         node *head;
         node *nullNode;
         int treeSize;
+        int count;
         
         void deepCopy(const RBTree &c){
             
@@ -290,13 +291,12 @@ class RBTree{
             if(n == nullNode){
                 return;
             }
-            
-            printInorderk(n->left, k - 1);
-            if(k < 3){
-                // cout << n->key << " ";
+            printInorderk(n->left, k);
+            if(count < k){
+                cout << n->key << " ";
+                count++;
             }
-            
-            printInorderk(n->right, k -1);
+            printInorderk(n->right, k);
         }
 
         void printPreorder(node *n){
@@ -389,9 +389,7 @@ class RBTree{
 
         ~RBTree(){
             deleteTraversal(head);
-            int x = 0;
             delete nullNode;
-            x= 3;
         }
 
         void deleteTraversal(node* n){
@@ -410,6 +408,8 @@ class RBTree{
 
         RBTree& operator=(const RBTree& c){
             if(this != &c){
+                deleteTraversal(this->head);
+                delete this->nullNode;
                 // delete this;
                 deepCopy(c);
             }
@@ -592,7 +592,8 @@ class RBTree{
         // Prints the smallest k keys in the tree-> The list of 
         // keys are separated by a single space and terminated with a newline
         void printk(int k){
-            rankRecurse(head, k);
+            count = 0;
+            printInorderk(head, k);
             cout << endl;
         }
 
