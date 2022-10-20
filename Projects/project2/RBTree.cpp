@@ -427,10 +427,11 @@ class RBTree{
                     n = n->right;
                 }
             }
-            if(n == nullNode){
+            if(n->key != k){
                 return NULL;
+            } else {
+                return &n->value;
             }
-            return &n->value;
         }
 
         //Inserts the node with key k and value v into the tree->
