@@ -1,8 +1,9 @@
+#ifndef CircularDynamicArray_H
+#define CircularDynamicArray_H
+
 #include <iostream>
 #include <cstdlib>
 using namespace std;
-
-
 
 template <class elmtype>
 class CircularDynamicArray{
@@ -436,3 +437,5 @@ class CircularDynamicArray{
             return search(v, 0, size - 1);
         }
 };
+
+#endif

@@ -1,3 +1,3 @@
 all:
-	g++ Phase1Main.cpp CircularDynamicArray.cpp Heap.cpp FibHeap.cpp -o Phase1
+	g++ Phase3Main.cpp -o Phase3
 	
