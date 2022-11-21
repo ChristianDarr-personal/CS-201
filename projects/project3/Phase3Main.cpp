@@ -43,6 +43,9 @@ int main(){
 	// Y.insert("B");
 	// cout << Y.peekKey() << endl;
 	Y.printKey();
+	string x = Y.extractMin();
+	cout << x;
+	Y.printKey();
 
 	// X.insert("C");
 	// X.insert("D");
