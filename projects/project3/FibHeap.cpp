@@ -227,7 +227,7 @@ class FibHeap{
                             head = z->right;
                         }
                         min = z->right;
-                        printKey();
+                        // printKey();
                         consolidate();
                     }
                     return x;
@@ -257,7 +257,7 @@ class FibHeap{
                         head = z->right;
                     }
                     min = z->right;
-                    printKey();
+                    // printKey();
                     consolidate();
                 }
                 
@@ -366,7 +366,7 @@ class FibHeap{
         // Writes the keys stored in the heap, starting at the head of the list. When printing a binomial
         // tree, print the size of tree first and then use a modified preorder traversal of the tree.
         void printKey(){
-            cout << "PrintKey!" << endl;
+            // cout << "PrintKey!" << endl;
             int loopFlag = 0;
             FibHeapNode<keytype>* current = head;
             if(current != nullNode){
