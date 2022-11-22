@@ -22,6 +22,7 @@ class FibHeap{
         FibHeapNode<keytype> *head;
         FibHeapNode<keytype> *nullNode;
         int size;
+        int n;
 
         void heapLink(FibHeapNode<keytype> *y, FibHeapNode<keytype> *x){
             if(y == head){
@@ -29,21 +30,17 @@ class FibHeap{
             }
             y->right->left = y->left;
             y->left->right = y->right;
-            y->left = nullNode;
-            y->right = nullNode;
+            y->left = y;
+            y->right = y;
             size--;
             y->parent = x;
-            if(x->child != nullNode){
+
+            if(x->child != nullNode){ // x->child != nullNode
                 x->child->left->right = y;
                 y->right = x->child;
                 y->left = x->child->left;
                 x->child->left = y;
                 x->child = y;
-            } else if (x->degree> 1){
-                x->child->left->right = y;
-                x->child->left = y->left;
-                y->left = x->child->left;
-                y->left->right = x->child;
             } else {
                 x->child = y;
                 y->right = y;
@@ -58,22 +55,28 @@ class FibHeap{
                 return;
             }
             float ph = 1.618;
-            int dn = ceil(log(size)/log(ph))+1;
-            FibHeapNode<keytype>* A[dn];
-            for(int i = 0; i < dn; i++){
+            int dn = ceil(log(n)/log(ph))+1;
+            FibHeapNode<keytype>* A[dn+1];
+            for(int i = 0; i < dn+1; i++){
                 A[i] = nullNode;
             }
             int loopFlag = 0;
+            bool done = false;
             FibHeapNode<keytype>* current = head;
             while(current != head || loopFlag == 0){
+                if(done == true){ break;}
                 // printKey();
                 loopFlag = 1;
                 FibHeapNode<keytype>* x = current;
+                if(current == head->left){
+                    done = true;
+                }
                 current = current->right;
+                
                 int d = x->degree;
                 while(A[d] != nullNode && d < dn){
                     FibHeapNode<keytype>* y = A[d];
-                    if(y == current){
+                    if(y == current && current != head->left){
                         current = current->right;
                     }
                     if(x->key > y->key){
@@ -90,7 +93,7 @@ class FibHeap{
             min = nullNode;
             head = nullNode;
             size = 0;
-            for(int i = 0; i <dn; i++){
+            for(int i = 0; i <dn +1; i++){
                 if(A[i] != nullNode){
                     A[i]->left = nullNode;
                     A[i]->right = nullNode;
@@ -224,6 +227,7 @@ class FibHeap{
                             head = z->right;
                         }
                         min = z->right;
+                        printKey();
                         consolidate();
                     }
                     return x;
@@ -243,6 +247,7 @@ class FibHeap{
                 z->right->left = z->left;
                 z->left->right = z->right;
                 size -= 1;
+                
                 if(z == z->right){
                     min = nullNode;
                     head = nullNode;
@@ -252,12 +257,13 @@ class FibHeap{
                         head = z->right;
                     }
                     min = z->right;
+                    printKey();
                     consolidate();
                 }
                 
             }
             
-
+            n--;    
             return x;
         }
 
@@ -286,6 +292,7 @@ class FibHeap{
                 }
             }
             size++;
+            n++;
             return newNode;
         }
 
@@ -349,7 +356,7 @@ class FibHeap{
             head->left = H2.head->left;
             H2.head->left = head->left;
             H2.head->left->right = head;
-            if(min == nullNode || (H2.min != H2.nullNode && min > H2.min)){
+            if(min == nullNode || ((H2.min != nullptr) && (min->key > H2.min->key))){
                 min = H2.min;
             }
             size += H2.size;
@@ -359,7 +366,7 @@ class FibHeap{
         // Writes the keys stored in the heap, starting at the head of the list. When printing a binomial
         // tree, print the size of tree first and then use a modified preorder traversal of the tree.
         void printKey(){
-            // cout << "PrintKey!" << endl;
+            cout << "PrintKey!" << endl;
             int loopFlag = 0;
             FibHeapNode<keytype>* current = head;
             if(current != nullNode){
