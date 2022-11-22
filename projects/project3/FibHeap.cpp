@@ -132,6 +132,21 @@ class FibHeap{
             }
         }
 
+        void recurseDelete(FibHeapNode<keytype>* n){
+            if(n == nullNode){
+                return;
+            }
+            int loopFlag = 0;
+            FibHeapNode<keytype>* current = n;
+            while(current != n || loopFlag == 0){
+                loopFlag = 1;
+                FibHeapNode<keytype>* deleted = current;
+                recurseDelete(current->child);
+                current = current->right;
+                delete deleted;
+            }
+        }
+
     public:
         
 
@@ -141,6 +156,7 @@ class FibHeap{
             min = nullNode;
             head = nullNode;
             size = 0;
+            n = 0;
         }
 
         // The heap should be built using the array k containing s items of keytype. Once all the data
@@ -157,6 +173,7 @@ class FibHeap{
             min = nullNode;
             head = nullNode;
             size = 0;
+            n=0;
             for(int i = 0; i < s; i++){
                 FibHeapNode<keytype>* newNode = new FibHeapNode<keytype>();
                 newNode->key = k[i];
@@ -181,13 +198,34 @@ class FibHeap{
                     }
                 }
                 size++;
+                n++;
                 handle.addEnd(newNode);
             }
             consolidate();
         }
 
         // Destructor for the class. O(n) 
-        ~FibHeap(){}
+        ~FibHeap(){
+            if(head == nullptr){
+                return;
+            }
+            int loopFlag = 0;
+            FibHeapNode<keytype>* current = head->left;
+            
+            if(current != nullNode){
+                while(current != head || loopFlag == 0){
+                    loopFlag = 1;
+                    FibHeapNode<keytype>* deleted = current;
+                    
+                    recurseDelete(current->child);
+                    current = current->left;
+                    delete deleted;
+                    
+                }
+                recurseDelete(current->child);
+                delete current;
+            }
+        }
 
         // Returns the minimum key in the heap without modifying the heap. O(1)
         keytype peekKey(){
@@ -208,6 +246,7 @@ class FibHeap{
                     z->right->left = z->left;
                     z->left->right = z->right;
                     size -= 1;
+                    n--;
                     int flag = 0;
                     FibHeapNode<keytype>* findMin = head;
                     while(findMin != head || flag == 0){
@@ -222,6 +261,7 @@ class FibHeap{
                         min = nullNode;
                         head = nullNode;
                         size = 0;
+                        // n = 0;
                     } else {
                         if(min == head){
                             head = z->right;
@@ -237,6 +277,7 @@ class FibHeap{
                     current->parent = nullNode;
                     current = current->right;
                     size++;
+                    n++;
                 }
                 
                 head->left->right = z->child;
@@ -247,11 +288,13 @@ class FibHeap{
                 z->right->left = z->left;
                 z->left->right = z->right;
                 size -= 1;
+                n--;
                 
                 if(z == z->right){
                     min = nullNode;
                     head = nullNode;
                     size = 0;
+                    // n = 0;
                 } else {
                     if(min == head){
                         head = z->right;
@@ -360,6 +403,12 @@ class FibHeap{
                 min = H2.min;
             }
             size += H2.size;
+            n += H2.n;
+            H2.head = nullptr;
+            H2.min = nullptr;
+            H2.size = 0;
+            H2.n = 0;
+
         }
 
 
