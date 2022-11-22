@@ -42,10 +42,14 @@ int main(){
 	// Y.insert("A");
 	// Y.insert("B");
 	// cout << Y.peekKey() << endl;
-	Y.printKey();
-	string x = Y.extractMin();
-	cout << x;
-	Y.printKey();
+	// Y.printKey();
+	string x;
+	for(int i = 0; i < 10; i++){
+		x = Y.extractMin();
+		cout << "Min: " << x << endl;
+		Y.printKey();
+	}
+	
 
 	// X.insert("C");
 	// X.insert("D");

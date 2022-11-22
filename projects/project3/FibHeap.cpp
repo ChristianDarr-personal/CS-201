@@ -51,10 +51,6 @@ class FibHeap{
                 y->right = y;
                 y->left = y;
             }
-            // if(y == head){
-            //     head 
-
-            // }
             x->degree++;
             y->marked = false;
         }   
@@ -118,6 +114,20 @@ class FibHeap{
             }
         }
 
+        void printTree(FibHeapNode<keytype>* n){
+            if(n == nullNode){
+                return;
+            }
+            int loopFlag = 0;
+            FibHeapNode<keytype>* current = n;
+            while(current != n || loopFlag == 0){
+                cout << current->key << " ";
+                loopFlag = 1;
+                printTree(current->child);
+                current = current->right;
+            }
+        }
+
     public:
         
 
@@ -171,13 +181,31 @@ class FibHeap{
             if(z != nullNode){
                 int loopFlag = 0;
                 FibHeapNode<keytype>* current = z->child;
+                if(z->child == nullNode){
+                    head = z->right;
+                    min = z->right;
+                    z->right->left = z->left;
+                    z->left->right = z->right;
+                    size -= 1;
+                    int flag = 0;
+                    FibHeapNode<keytype>* findMin = head;
+                    while(findMin != head || flag == 0){
+                        flag = 1;
+                        if(findMin->key < min->key){
+                            min = findMin;
+                        }
+                        findMin = findMin->right;
+                    }
+                    // consolidate();
+                    return x;
+                }
                 while(current != z->child || loopFlag == 0){
                     loopFlag = 1;
-                    current->parent == nullNode;
+                    current->parent = nullNode;
                     current = current->right;
                     size++;
                 }
-
+                
                 head->left->right = z->child;
                 head->left = z->child->left;
                 z->child->left = head->left;
@@ -186,11 +214,14 @@ class FibHeap{
                 z->right->left = z->left;
                 z->left->right = z->right;
                 size -= 1;
-
-                printKey();
                 if(z == z->right){
                     min = nullNode;
+                    head == nullNode;
+                    size = 0;
                 } else {
+                    if(min == head){
+                        head = z->right;
+                    }
                     min = z->right;
                     consolidate();
                 }
@@ -250,30 +281,19 @@ class FibHeap{
         // Writes the keys stored in the heap, starting at the head of the list. When printing a binomial
         // tree, print the size of tree first and then use a modified preorder traversal of the tree.
         void printKey(){
+            cout << "PrintKey!" << endl;
             int loopFlag = 0;
             FibHeapNode<keytype>* current = head;
             while(current != head || loopFlag == 0){
                 loopFlag = 1;
+                cout << "Rank " << current->degree << endl;
                 cout << current->key << " ";
                 printTree(current->child);
                 current = current->right;
-                cout << endl;
+                cout << endl << endl;
             }
-            cout << endl;
         }
 
-        void printTree(FibHeapNode<keytype>* n){
-            if(n == nullNode){
-                return;
-            }
-            int loopFlag = 0;
-            FibHeapNode<keytype>* current = n;
-            while(current != n || loopFlag == 0){
-                cout << current->key << " ";
-                loopFlag = 1;
-                printTree(current->child);
-                current = current->right;
-            }
-        }
+        
 
 };
