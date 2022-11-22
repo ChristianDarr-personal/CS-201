@@ -135,19 +135,19 @@ int main(){
 	//Rank 3
 	//B C J K D P Z E
 
-	// Y.extractMin();
-	// //Should output B
+	Y.extractMin();
+	//Should output B
 
-	// Y.printKey();
-    // //Should output
-	// //Rank 0
-	// //E
-	// //
-	// //Rank 2
-	// //I P Z L
-	// //
-	// //Rank 3
-	// //C G M O N J K D
+	Y.printKey();
+    //Should output
+	//Rank 0
+	//E
+	//
+	//Rank 2
+	//I P Z L
+	//
+	//Rank 3
+	//C G M O N J K D
 	
-	// return 0;
+	return 0;
 }

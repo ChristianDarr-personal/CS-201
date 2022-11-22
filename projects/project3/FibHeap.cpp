@@ -134,13 +134,7 @@ class FibHeap{
 
         // Default Constructor. The Heap should be empty O(1)
         FibHeap(){
-            nullNode = new FibHeapNode<keytype>();
-            nullNode->marked = false;
-            nullNode->parent = nullNode;
-            nullNode->left = nullNode;
-            nullNode->right = nullNode;
-            nullNode->child = nullNode;
-            nullNode->degree = -1;
+            nullNode = nullptr;
             min = nullNode;
             head = nullNode;
             size = 0;
@@ -150,13 +144,13 @@ class FibHeap{
         // is in the heap, a single call of consolidate should be used to form the binomial trees. The handles
         // for the keys should be added to the end of circular dynamic array named handle. O(s)
         FibHeap(keytype k[], int s, CircularDynamicArray<FibHeapNode<keytype> *>&handle){
-            nullNode = new FibHeapNode<keytype>();
-            nullNode->marked = false;
-            nullNode->parent = nullNode;
-            nullNode->left = nullNode;
-            nullNode->right = nullNode;
-            nullNode->child = nullNode;
-            nullNode->degree = -1;
+            nullNode = nullptr;
+            // nullNode->marked = false;
+            // nullNode->parent = nullNode;
+            // nullNode->left = nullNode;
+            // nullNode->right = nullNode;
+            // nullNode->child = nullNode;
+            // nullNode->degree = -1;
             min = nullNode;
             head = nullNode;
             size = 0;
