@@ -31,11 +31,9 @@ class FibHeap{
             y->left->right = y->right;
             y->left = nullNode;
             y->right = nullNode;
-            
             size--;
             y->parent = x;
             if(x->child != nullNode){
-
                 x->child->left->right = y;
                 y->right = x->child;
                 y->left = x->child->left;
@@ -56,6 +54,9 @@ class FibHeap{
         }   
 
         void consolidate(){
+            if(size == 1){
+                return;
+            }
             float ph = 1.618;
             int dn = ceil(log(size)/log(ph))+1;
             FibHeapNode<keytype>* A[dn];
@@ -160,7 +161,30 @@ class FibHeap{
             head = nullNode;
             size = 0;
             for(int i = 0; i < s; i++){
-                insert(k[i]);
+                FibHeapNode<keytype>* newNode = new FibHeapNode<keytype>();
+                newNode->key = k[i];
+                newNode->degree = 0;
+                newNode->marked = false;
+                newNode->child = nullNode;
+                newNode->parent = nullNode;
+                newNode->left = nullNode;
+                newNode->left - nullNode;
+                if(head == nullNode){
+                    head = newNode;
+                    head->left = newNode;
+                    head->right = newNode;
+                    min = newNode;
+                } else {
+                    head->left->right = newNode;
+                    newNode->right = head;
+                    newNode->left = head->left;
+                    head->left = newNode;
+                    if(newNode->key < min->key){
+                        min = newNode;
+                    }
+                }
+                size++;
+                handle.addEnd(newNode);
             }
             consolidate();
         }
@@ -196,7 +220,18 @@ class FibHeap{
                         }
                         findMin = findMin->right;
                     }
-                    // consolidate();
+                    
+                    if(z == z->right){
+                        min = nullNode;
+                        head = nullNode;
+                        size = 0;
+                    } else {
+                        if(min == head){
+                            head = z->right;
+                        }
+                        min = z->right;
+                        consolidate();
+                    }
                     return x;
                 }
                 while(current != z->child || loopFlag == 0){
@@ -216,7 +251,7 @@ class FibHeap{
                 size -= 1;
                 if(z == z->right){
                     min = nullNode;
-                    head == nullNode;
+                    head = nullNode;
                     size = 0;
                 } else {
                     if(min == head){
@@ -263,7 +298,56 @@ class FibHeap{
         // Decrease the key of the node stored at the address h to the value k. You can assume that
         // the node stored at this address does belong to this FibHeap instance. If k is not less than the
         // current key, do nothing and return False. Return True otherwise.
-        bool decreaseKey(FibHeapNode<keytype> *h, keytype k){}
+        bool decreaseKey(FibHeapNode<keytype> *x, keytype k){
+            if(k > x->key){
+                return false;
+            }
+            x->key = k;
+            FibHeapNode<keytype>* y = x->parent;
+            if(y!= nullNode && x->key < y->key){
+                cut(x, y);
+                cascadingCut(y);
+            }
+            if(x->key < min->key){
+                min = x;
+            }
+            return true;
+        }
+
+        void cut(FibHeapNode<keytype>* x, FibHeapNode<keytype>* y){
+            if(x == y->child){
+                if(y->degree == 1){
+                    y->child = nullNode;
+                } else {
+                    y->child = x->right;
+                }
+                y->degree--;
+            }
+            x->right->left = x->left;
+            x->left->right = x->right;
+            head->left->right = x;
+            x->right = head;
+            x->left = head->left;
+            head->left = x;
+            if(x->key < min->key){
+                min = x;
+            }
+
+            x->parent = nullNode;
+            x->marked = false;
+        }
+
+        void cascadingCut(FibHeapNode<keytype>* y){
+            FibHeapNode<keytype>* z = y->parent;
+            if(z != nullNode){
+                if(!y->marked){
+                    y->marked = true;
+                } else {
+                    cut(y, z);
+                    cascadingCut(z);
+                }
+            }
+        }
 
         // Merges the heap H2 into the current heap. Consumes H2.
         void merge(FibHeap<keytype>&H2){            
@@ -281,16 +365,18 @@ class FibHeap{
         // Writes the keys stored in the heap, starting at the head of the list. When printing a binomial
         // tree, print the size of tree first and then use a modified preorder traversal of the tree.
         void printKey(){
-            cout << "PrintKey!" << endl;
+            // cout << "PrintKey!" << endl;
             int loopFlag = 0;
             FibHeapNode<keytype>* current = head;
-            while(current != head || loopFlag == 0){
-                loopFlag = 1;
-                cout << "Rank " << current->degree << endl;
-                cout << current->key << " ";
-                printTree(current->child);
-                current = current->right;
-                cout << endl << endl;
+            if(current != nullNode){
+                while(current != head || loopFlag == 0){
+                    loopFlag = 1;
+                    cout << "Rank " << current->degree << endl;
+                    cout << current->key << " ";
+                    printTree(current->child);
+                    current = current->right;
+                    cout << endl << endl;
+                }
             }
         }
 

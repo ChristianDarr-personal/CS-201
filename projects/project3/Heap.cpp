@@ -56,7 +56,6 @@ class Heap{
             heap = CircularDynamicArray<keytype>(s);
             for(int i = 0; i < s; i++){
                 heap[i] = k[i];
-                printKey();
             }
             buildHeap();
         }
